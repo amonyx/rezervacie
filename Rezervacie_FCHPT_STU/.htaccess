@@ -1,0 +1,10 @@
+Options -MultiViews
+RewriteEngine On
+Options -Indexes
+
+RewriteBase /Rezervacie_FCHPT_STU
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
