@@ -26,6 +26,6 @@ class Connection
 		{
 			return $this->connect;
 		}
-        }
+    }
 }
 ?>

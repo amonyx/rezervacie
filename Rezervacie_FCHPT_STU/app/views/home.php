@@ -1,0 +1,6 @@
+ahoj
+<?php
+echo $data;
+?>
+
+<?=$data?>
