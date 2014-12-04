@@ -1,12 +1,12 @@
 <?php
 class Vyhladavanie extends Controller
 {
-	public function index($kokotina = ''){
-		$this->hladaj($kokotina);
+	public function index(){
+		$this->hladaj();
 	}
 
-	public function hladaj($kokotina = ''){
-		$this->show('formular/vyhladavanie',array('param' => $kokotina, 'param2' => 'picovina'));
+	public function hladaj(){
+		$this->show('Vy¾adávanie','form/vyhladavanie',array());
 	}
 
 	public function kalendar_ucitel($id){
