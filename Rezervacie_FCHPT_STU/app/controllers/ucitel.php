@@ -41,7 +41,7 @@ class Ucitel extends Controller
 	
 	public function odhlasenie(){
 		if($this->user != null){
-			unset($_SESSION['user']);
+			unset($_SESSION['id_user']);
 			setcookie('is_auth', 0, time() - 1); //zmaze cookie
 			$this->user = null;
 			$this->show('Odhlásenie','message',array('message' => 'Odhlásenie prebehlo úspešne.'));

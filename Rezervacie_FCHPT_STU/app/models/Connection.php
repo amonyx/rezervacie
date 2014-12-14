@@ -57,5 +57,22 @@ class Connection
 			return null;
 		}
 	}
+	
+	public function createUser($meno, $priezvisko, $login, $hashed_password, $admin){
+		if($this->connect != null){
+			$sql = "INSERT INTO uzivatel SET Meno=:meno,
+			Priezvisko=:priezvisko,
+			Login=:login,			
+			heslo=:heslo,
+			admin=:admin";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':meno' => $meno, ':priezvisko' => $priezvisko ,':login' => $login, ':heslo' => $hashed_password, ':admin' => $admin));			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return null;
+		}
+	}
 }
 ?>

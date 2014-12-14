@@ -6,36 +6,31 @@ class Controller{
 	public $user = null;
 	
 	public function __construct(){
-		var_dump($_COOKIE);
-		var_dump($_SESSION);
 		//skontroluje ci je niekto prihlaseny
-		if (isset($_SESSION['user']) && isset($_COOKIE['is_auth'])){
+		if (isset($_SESSION['id_user']) && isset($_COOKIE['is_auth'])){
 			$mysql = new Connection();
-			$mysql_result = $mysql->getUser($_SESSION['user']);
+			$mysql_result = $mysql->getUser($_SESSION['id_user']);
 			if($mysql_result != null){
 				$this->user = new User($mysql_result);
 				setcookie('is_auth', 1, time() + (3600 * 2)); //prenastavenie cookie na 2 hodiny
 			}
 			else{
-				unset($_SESSION['user']);
+				unset($_SESSION['id_user']);
 				unset($_COOKIE['is_auth']);
 			}
 		}
 		//skontroluje ci sa prave uzivatel neprihlasil
-		elseif (isset($_POST['login']) && isset($_POST['heslo'])){
-			if(true){//!preg_match('/^[A-Za-z0-9@_-.]*$/', $_POST['login'])
-				$login = $_POST['login'];
-				$heslo = sha1($_POST['heslo']);
-				$mysql = new Connection();
-				$mysql_result = $mysql->login($login, $heslo);
-				if($mysql_result != null){
-					$this->user = new User($mysql_result);
-					$_SESSION['user'] = $this->user->id;
-					setcookie('is_auth', 1, time() + (3600 * 2)); //prenastavenie cookie na 2 hodiny
-				}
-			}
+		elseif (isset($_POST['login']) && isset($_POST['heslo'])){			
+			$login = $_POST['login'];
+			$heslo = sha1($_POST['heslo']);
+			$mysql = new Connection();
+			$mysql_result = $mysql->login($login, $heslo);
+			if($mysql_result != null){
+				$this->user = new User($mysql_result);
+				$_SESSION['id_user'] = $this->user->id;
+				setcookie('is_auth', 1, time() + (3600 * 2)); //prenastavenie cookie na 2 hodiny
+			}		
 		}
-		var_dump($this->user);
 	}
     
     public function refresh($url){    	
@@ -50,10 +45,11 @@ class Controller{
     
     public function showLogin($message = '')
     {
-			if(@$_POST['prihlasenie']){
-				$message = 'Nesprávny login alebo heslo.';
-			}
-			$this->show('Prihlásenie','form/login',array('message' => $message));
+		if(@$_POST['prihlasenie']){
+			$message = 'Nesprávny login alebo heslo.';
+		}
+		$this->show('Prihlásenie','form/login',array('message' => $message));
     }
+
 }
 ?>
