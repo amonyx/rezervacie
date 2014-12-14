@@ -23,7 +23,8 @@ class Ucitel extends Controller
 	public function rezervacia(){
 		if($this->user != null){
 			// vytvorenie novej rezervacie
-			$this->show('Uèite¾ | Rezervácia','message',array('message' => 'Ste v èasti pre uèite¾ov.'));	
+			$this->show('Uèite¾ | Rezervácia','form/rezervacia',array('message' => 'Vytvorit rezervaciu'));	
+					
 		}	
 		else{
 			$this->showLogin('Pre vstup je nutné by prihlásenı.');
