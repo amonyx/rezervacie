@@ -6,7 +6,6 @@ class Controller{
 	public $user = null;
 	
 	public function __construct(){
-		var_dump($_COOKIE);
 		//skontroluje ci je niekto prihlaseny
 		if (isset($_SESSION['id_user']) && isset($_COOKIE['is_auth'])){
 			$mysql = new Connection();
