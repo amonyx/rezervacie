@@ -51,4 +51,26 @@ class Ucitel extends Controller
 			$this->showLogin('Už ste boli odhlásený.');
 		}
 	}
+	
+	public function zmenaHesla($message = ''){
+		if($this->user != null){
+			if(@$_POST['changePassword']){
+				if(isset($_POST['heslo']) && $_POST['heslo'] != '')
+				{				
+					if(strlen($_POST['heslo']) >= 6)
+					{
+						if($_POST['heslo'] == $_POST['heslo2'])
+						{
+							$heslo = sha1($_POST['heslo']);
+							
+						}
+					}
+				}
+			}
+			$this->show('Zmena Hesla', 'form/zmenaHesla',array('message' => $message));
+		}
+		else{
+			$this->showLogin('Už ste boli odhlásený.');
+		}
+	}
 }

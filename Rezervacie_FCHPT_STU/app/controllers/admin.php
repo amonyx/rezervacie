@@ -48,8 +48,7 @@ class Admin extends Controller
 									else
 									{
 										$admin = 0;
-									}
-									
+									}									
 									$mysql = new Connection();
 									$mysql_result = $mysql->createUser($meno, $priezvisko, $login, $heslo, $admin);								
 									if($mysql_result == null){
@@ -89,4 +88,49 @@ class Admin extends Controller
 			$this->showLogin('Pre vstup je nutné by prihlásenı.');
 		}
 	}
+	
+	public function ZmenaPrav($message = '', $message2 = ''){
+		if($this->user != null){
+			if($this->user->admin){					
+				if(@$_POST['ChangeAdmin']){	
+					$login = $_POST['ChangeAdmin'];
+					if(isset($_POST[$_POST['ChangeAdmin']]))
+					{		
+						$admin = 1;
+					}
+					else
+					{
+						$admin = 0;
+					}					
+					if(isset($_POST['confirmID']))
+					{		
+						if($_POST['confirmID'] == "true")
+						{
+							$mysql = new Connection();
+							$mysql_result = $mysql->changeAdmin($login, $admin);								
+							if($mysql_result == null){
+								$message = 'Nastala chyba pri vytvarani.';
+							}
+							else
+							{								
+								$message2 = 'Pouzivatelovi "' . $login . '" boli uspesne zmenene administratorske prava';
+							}
+						}						
+					}
+					else
+					{
+						$this->show('Oops','messages/errorMessage',array('message' => 'Nastala chyba.'));
+					}
+				}			
+				$this->show('Zmena Prav', 'form/zmenaAdminPrav',array('message' => $message, 'message2' => $message2));					
+			}
+			else{
+				$this->show('Oops','messages/errorMessage',array('message' => 'Prístup bol zamietnutı.'));
+			}		
+		}	
+		else{
+			$this->showLogin('Pre vstup je nutné by prihlásenı.');
+		}
+	}
+	
 }

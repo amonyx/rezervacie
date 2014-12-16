@@ -26,6 +26,7 @@
 			if($this->user != null){
 				echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Ucitel/kalendar">Kalendár</a></li>';
 				echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Ucitel/rezervacia">Nová rezervácia</a></li>';
+				echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Ucitel/zmenaHesla">Zmena Hesla</a></li>';
 				if($this->user->admin){
 					echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin">Administrácia</a></li>';										
 				}
