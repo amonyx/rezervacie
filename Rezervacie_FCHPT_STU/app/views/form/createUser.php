@@ -29,7 +29,7 @@
 				<label for="meno">Meno:</label>
 			</td>
 			<td>
-				<input name="meno" type="text" value="<?php if (isset($_POST["meno"])) echo $_POST["meno"]; ?>">
+				<input name="meno" type="text" value="<?php if (isset($_POST["meno"])) echo $_POST["meno"]; ?>" id="meno">
 				<?php if (isset($_POST["meno"]) && $_POST["meno"] == "") echo "<font color='red'>*povinny udaj</font>"; ?>
 			</td>
 		</tr>
@@ -38,7 +38,7 @@
 				<label for="priezvisko">Priezvisko:</label>
 			</td>
 			<td>
-				<input name="priezvisko" type="text"  value="<?php if (isset($_POST["priezvisko"])) echo $_POST["priezvisko"]; ?>">
+				<input name="priezvisko" type="text"  value="<?php if (isset($_POST["priezvisko"])) echo $_POST["priezvisko"]; ?>" id="priezvisko">
 				<?php if (isset($_POST["priezvisko"]) && $_POST["priezvisko"] == "") echo "<font color='red'>*povinny udaj</font>"; ?>
 			</td>
 		</tr>
@@ -47,7 +47,7 @@
 				<label for="login">Login(Prihlasovaci nick):</label>
 			</td>
 			<td>
-				<input name="login" type="text"  value="<?php if (isset($_POST["login"])) echo $_POST["login"]; ?>">
+				<input name="login" type="text"  value="<?php if (isset($_POST["login"])) echo $_POST["login"]; ?>" id="login">
 				<?php if (isset($_POST["login"]))
 					{
 						if($_POST["login"] == "")
@@ -60,7 +60,7 @@
 		</tr>
 		<tr>
 			<td>
-				<label for="genHeslo">Generovat heslo:</label>
+				<label for="genH">Generovat heslo:</label>
 			</td>
 			<td>
 				<input id="genH" name="genHeslo" type="checkbox" onchange="Check();" <?php if(isset($_POST["genHeslo"])) echo "checked"; ?>>
@@ -71,7 +71,7 @@
 				<label for="heslo">Heslo:</label>
 			</td>
 			<td>
-				<input name="heslo" type="password"  value="<?php if (isset($_POST["heslo"])) echo $_POST["heslo"]; ?>">				
+				<input name="heslo" type="password" id="heslo" value="<?php if (isset($_POST["heslo"])) echo $_POST["heslo"]; ?>">				
 				<?php if(isset($_POST["heslo"])){
 						if($_POST["heslo"] == "")
 						{
@@ -90,7 +90,7 @@
 				<label for="heslo2">Opakuj heslo:</label>
 			</td>
 			<td>
-				<input name="heslo2" type="password"  value="<?php if (isset($_POST["heslo2"])) echo $_POST["heslo2"]; ?>">
+				<input name="heslo2" type="password" id="heslo2" value="<?php if (isset($_POST["heslo2"])) echo $_POST["heslo2"]; ?>">
 				<?php if (isset($_POST["heslo2"])){
 						if($_POST["heslo2"] == "")
 						{
@@ -111,7 +111,7 @@
 				<label for="admin">Admin:</label>
 			</td>
 			<td>
-				<input name="admin" type="checkbox" <?php if (isset($_POST["admin"])) echo "checked"; ?>>
+				<input name="admin" type="checkbox" id="admin" <?php if (isset($_POST["admin"])) echo "checked"; ?>>
 			</td>
 		</tr>
 		<tr>

@@ -10,7 +10,7 @@
 				<label for="heslo">Heslo:</label>
 			</td>
 			<td>
-				<input name="heslo" type="password"  value="<?php if (isset($_POST["heslo"])) echo $_POST["heslo"]; ?>">				
+				<input name="heslo" id="heslo" type="password"  value="<?php if (isset($_POST["heslo"])) echo $_POST["heslo"]; ?>">				
 				<?php if(isset($_POST["heslo"])){
 						if($_POST["heslo"] == "")
 						{
@@ -29,7 +29,7 @@
 				<label for="heslo2">Opakuj heslo:</label>
 			</td>
 			<td>
-				<input name="heslo2" type="password"  value="<?php if (isset($_POST["heslo2"])) echo $_POST["heslo2"]; ?>">
+				<input name="heslo2" id="heslo2" type="password"  value="<?php if (isset($_POST["heslo2"])) echo $_POST["heslo2"]; ?>">
 				<?php if (isset($_POST["heslo2"])){
 						if($_POST["heslo2"] == "")
 						{

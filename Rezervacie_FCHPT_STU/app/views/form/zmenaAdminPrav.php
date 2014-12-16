@@ -32,7 +32,7 @@
 				{
 					echo '<tr>';
 					echo '<td>';
-					echo '<label>' . $result[$i]['Login'] . ': </label>';
+					echo '<label for="' . $result[$i]['Login'] . '"> ' . $result[$i]['Login'].':</label>';
 					echo '</td>';
 					echo '<td>';
 					echo '<input id="' . $result[$i]['Login'] . '" name="' . $result[$i]['Login'] . '"  type="checkbox" onchange="ChangeValue(this.id);this.form.submit();" ';
