@@ -6,13 +6,14 @@ class Controller{
 	public $user = null;
 	
 	public function __construct(){
+		var_dump($_COOKIE);
 		//skontroluje ci je niekto prihlaseny
 		if (isset($_SESSION['id_user']) && isset($_COOKIE['is_auth'])){
 			$mysql = new Connection();
 			$mysql_result = $mysql->getUser($_SESSION['id_user']);
 			if($mysql_result != null){
 				$this->user = new User($mysql_result);
-				setcookie('is_auth', 1, time() + (3600 * 2)); //prenastavenie cookie na 2 hodiny
+				setcookie('is_auth', 1, time() + (3600 * 2),'/'); //prenastavenie cookie na 2 hodiny
 			}
 			else{
 				unset($_SESSION['id_user']);
@@ -28,7 +29,8 @@ class Controller{
 			if($mysql_result != null){
 				$this->user = new User($mysql_result);
 				$_SESSION['id_user'] = $this->user->id;
-				setcookie('is_auth', 1, time() + (3600 * 2)); //prenastavenie cookie na 2 hodiny
+				setcookie('is_auth', 1, time() + (3600 * 2),'/'); //prenastavenie cookie na 2 hodiny
+				$this->refresh('Ucitel/');
 			}		
 		}
 	}
