@@ -139,5 +139,194 @@ class Connection
 			return null;
 		}
 	}
+	
+	public function createRoom($name_room, $type_room, $capacity_room){
+		if($this->connect != null){
+			$sql = "INSERT INTO miestnost SET Kapacita=:capacity_room,
+			Nazov=:name_room,
+			ID_Typ_Miestnosti=:type_room";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':name_room' => $name_room, ':type_room' => $type_room,':capacity_room' => $capacity_room));			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function changeRoom($id_room, $name_room, $type_room, $capacity_room){
+		if($this->connect != null){
+			$sql = "UPDATE miestnost SET Nazov=:name_room,
+			ID_Typ_Miestnosti=:type_room,
+			Kapacita=:capacity_room
+			WHERE ID=:id_room";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':name_room' => $name_room, ':type_room' => $type_room,':capacity_room' => $capacity_room, ':id_room' => $id_room));			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+		public function changeRoomType($name_room_type){
+		if($this->connect != null){
+			$sql = "UPDATE typy_miestnosti 
+			SET Nazov=:name_room_type";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':name_room_type' => $name_room_type));			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function deleteRoom($id_room){
+		if($this->connect != null){
+			$sql = "DELETE FROM miestnost WHERE ID=:id_room";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':id_room' => $id_room));			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function deleteRoomType($id_room_type){
+		if($this->connect != null){
+			$sql = "DELETE FROM typy_miestnosti WHERE ID=:id_room_type";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':id_room_type' => $id_room_type));			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function deleteAllRooms(){
+		if($this->connect != null){
+			$sql = "DELETE FROM miestnost";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute();			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function getRoomTypes(){
+	if($this->connect != null){
+			$sql = 'SELECT *
+					FROM typy_miestnosti';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute();
+			
+			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
+			$result[] = $row;
+			}
+			
+			$stmt->closeCursor();
+			return $result;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function createRoomType($name_room_type){
+		if($this->connect != null){
+			$sql = "INSERT INTO typy_miestnosti SET Nazov=:name_room_type";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':name_room_type' => $name_room_type));			
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function getAllRooms(){
+		if($this->connect != null){
+			$sql = "SELECT * FROM miestnost";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute();
+			$result = '';
+			
+			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
+			$result[] = $row;
+			}
+			
+			$stmt->closeCursor();
+			return $result;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function getRoomTypeByID($id_room_type){
+		if($this->connect != null){
+			$sql = 'SELECT *
+					FROM typy_miestnosti
+					WHERE ID=:id_room_type';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':id_room_type' => $id_room_type));
+			$result = $stmt->fetch();
+			$stmt->closeCursor();
+			return $result;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function TEST_MIESTNOSTI_VYTVOR($pocet){
+		if($this->connect != null){
+		$name_room = "TEST Miestnost";
+			for($i = 0; $i < $pocet; $i++){
+			$name_room = 'TEST Miestnost'.$i;
+			$capacity_room = rand(1,100);
+			$id_room_type = rand(2,5);
+			$sql = "INSERT INTO miestnost 
+			SET Nazov=:name_room,
+			Kapacita=:capacity_room,
+			ID_Typ_Miestnosti=:id_room_type";			
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':name_room' => $name_room, ':capacity_room' => $capacity_room, 'id_room_type' => $id_room_type));			
+			$stmt->closeCursor();
+			}
+			return true;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function getRoomByID($id_room){
+		if($this->connect != null){
+			$sql = 'SELECT *
+					FROM miestnost
+					WHERE id=:id_room';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':id_room' => $id_room));
+			$room = $stmt->fetch();
+			$stmt->closeCursor();
+			return $room;
+		}
+		else{
+			return null;
+		}
+	}
 }
 ?>

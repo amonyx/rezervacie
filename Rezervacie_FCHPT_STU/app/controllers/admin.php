@@ -133,4 +133,107 @@ class Admin extends Controller
 		}
 	}
 	
+	public function CreateNewRoom($message = ''){
+	if($this->user != null){
+			if($this->user->admin){
+				if(@$_POST['createRoom']){
+					if (isset($_POST['name_room']) && $_POST['name_room'] != '' && isset($_POST['capacity_room']) && $_POST['capacity_room'] != '' && isset($_POST['type_room'])){			
+						if(is_numeric($_POST['capacity_room']) && ($_POST['capacity_room'] > 0))
+						{							
+							$name_room = $_POST['name_room'];
+							$capacity_room = $_POST['capacity_room'];
+							$type_room = $_POST['type_room'];
+						
+							$mysql = new Connection();
+							$mysql_result = $mysql->createRoom($name_room, $type_room ,$capacity_room);
+							if($mysql_result == null){
+								$message = 'Nastala chyba pri vytvarani.';
+							}	
+							else
+							{
+								$this->show('Succesful', 'message',array('message' => "Uspesne vytvorenie miestnosti. Nazov: " . $name_room . " Typ: " . $type_room . " Kapacita:" . $capacity_room));									
+							}
+						}else{
+							$this->show('Oops','message',array('message' => 'Zla kapacita.'));
+						}
+					}
+					else
+					{
+						$message = 'Nevyplnene udaje.';
+					}
+					
+				}
+				$this->show('New Room', 'form/createRoom',array('message' => $message));		
+			}				
+			else{
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutı.'));
+			}
+		}				
+		else{
+			$this->showLogin('Pre vstup je nutné by? prihlásenı.');
+		}
+	}
+	
+	public function handleRooms($message = ''){
+	if($this->user != null){
+			if($this->user->admin){
+				$this->show('Handle Rooms', 'form/handleRooms',array('message' => $message));		
+			}				
+			else{
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutı.'));
+			}
+		}				
+		else{
+			$this->showLogin('Pre vstup je nutné by prihlásenı.');
+		}
+	}
+	
+	public function handleRoomTypes($message = ''){
+	if($this->user != null){
+			if($this->user->admin){
+				$this->show('Handle Room Types', 'form/handleRoomTypes',array('message' => $message));		
+			}				
+			else{
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutı.'));
+			}
+		}				
+		else{
+			$this->showLogin('Pre vstup je nutné by prihlásenı.');
+		}
+	}
+	
+	public function CreateNewRoomType($message = ''){
+	if($this->user != null){
+			if($this->user->admin){
+				if(@$_POST['createRoomType']){
+						if (isset($_POST['name_room_type']) && ($_POST['name_room_type'] != '')){										
+								$name_room_type = $_POST['name_room_type'];
+							
+								$mysql = new Connection();
+								$mysql_result = $mysql->createRoomType($name_room_type);
+								if($mysql_result == null){
+									$message = 'Nastala chyba pri vytvarani.';
+								}	
+								else
+								{
+									$this->show('Succesful', 'message',array('message' => "Uspesne vytvorenie typu miestnosti. Nazov: " . $name_room_type));									
+								}
+						}
+						else
+						{
+							$message = 'Nevyplnene udaje.';
+						}
+						
+					}
+					$this->show('New Room Types', 'form/newRoomType',array('message' => $message));		
+			}				
+			else{
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutı.'));
+			}
+		}				
+		else{
+			$this->showLogin('Pre vstup je nutné by prihlásenı.');
+		}
+	}
+	
 }
