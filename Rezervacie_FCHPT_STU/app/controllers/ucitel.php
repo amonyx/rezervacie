@@ -23,7 +23,8 @@ class Ucitel extends Controller
 	public function rezervacia(){
 		if($this->user != null){
 			// vytvorenie novej rezervacie
-			$this->show('Uèite¾ | Rezervácia','message',array('message' => 'Ste v èasti pre uèite¾ov.'));	
+			$this->show('Uèite¾ | Rezervácia','form/rezervacia',array('message' => 'Vytvorit rezervaciu'));	
+					
 		}	
 		else{
 			$this->showLogin('Pre vstup je nutné by prihlásený.');
@@ -41,11 +42,33 @@ class Ucitel extends Controller
 	
 	public function odhlasenie(){
 		if($this->user != null){
-			unset($_SESSION['user']);
+			unset($_SESSION['id_user']);
 			setcookie('is_auth', 0, time() - 1); //zmaze cookie
 			$this->user = null;
 			$this->show('Odhlásenie','message',array('message' => 'Odhlásenie prebehlo úspešne.'));
 		}	
+		else{
+			$this->showLogin('Už ste boli odhlásený.');
+		}
+	}
+	
+	public function zmenaHesla($message = ''){
+		if($this->user != null){
+			if(@$_POST['changePassword']){
+				if(isset($_POST['heslo']) && $_POST['heslo'] != '')
+				{				
+					if(strlen($_POST['heslo']) >= 6)
+					{
+						if($_POST['heslo'] == $_POST['heslo2'])
+						{
+							$heslo = sha1($_POST['heslo']);
+							
+						}
+					}
+				}
+			}
+			$this->show('Zmena Hesla', 'form/zmenaHesla',array('message' => $message));
+		}
 		else{
 			$this->showLogin('Už ste boli odhlásený.');
 		}

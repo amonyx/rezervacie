@@ -1,7 +1,7 @@
 <?php
  
 /** Configuration Variables **/
-define('URL_BASE', 'rezervacie_fchpt_stu');
+define('URL_BASE', 'Rezervacie_FCHPT_STU');
 define('DOMAIN', 'localhost');
 
 define('DB_NAME', 'rezervacie fchpt stu');//
