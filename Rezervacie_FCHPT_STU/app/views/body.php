@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title><?=$title?></title>
-	<link rel="stylesheet" type="text/css" href="http://<?=DOMAIN?>/<?=URL_BASE?>/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="http://<?='DOMAIN'?>/<?='URL_BASE'?>/css/bootstrap.css">
 </head>
 <body>
 	<header>
