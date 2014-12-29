@@ -381,7 +381,7 @@ class Connection
 			return $rezervacie;
 		}
 		else{
-			return "";
+			return null;
 		}
 	}
 	
