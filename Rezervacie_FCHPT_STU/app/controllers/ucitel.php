@@ -10,10 +10,49 @@ class Ucitel extends Controller
 		}
 	}
 	
-	public function kalendar(){
+	public function kalendar($message = '',$message2 = ''){
 		if($this->user != null){
-			// zobrazenie vlastneho kalendara pre ucitela
-			$this->show('Uèite¾ | Kalendár','message',array('message' => 'Ste v èasti pre uèite¾ov.'));		
+			if(@$_POST['ID_MAPA_SUBMIT']){																	
+				if(isset($_POST['ID_MAPA_SUBMIT']) && isset($_POST['ID_Rezervacia_MAPA_SUBMIT']) 
+				&& isset($_POST['Zaciatok_MAPA_SUBMIT']) 
+				&& isset($_POST['Koniec_MAPA_SUBMIT']) 
+				&& isset($_POST['Pocet_Osob_MAPA_SUBMIT']))
+				{							
+					$id = $_POST['ID_MAPA_SUBMIT'];			
+					$id_rezervacie = $_POST['ID_Rezervacia_MAPA_SUBMIT'];			
+					$zaciatok = $_POST['Zaciatok_MAPA_SUBMIT'];			
+					$koniec = $_POST['Koniec_MAPA_SUBMIT'];			
+					$pocet_osob = $_POST['Pocet_Osob_MAPA_SUBMIT'];											
+					$mysql = new Connection();
+					$mysql_result = $mysql->updateMapaRezervacie($id, $id_rezervacie, $zaciatok, $koniec, $pocet_osob);								
+					if($mysql_result == null){
+						$message = 'Nastala chyba pri zmene mapy rezervacie.';
+					}
+					else
+					{																								
+						if(isset($_POST['ID_Rezervacia_MAPA_SUBMIT']) && isset($_POST['ID_Uzivatel_SUBMIT']) 
+						&& isset($_POST['ID_Miestnost_SUBMIT']) 
+						&& isset($_POST['Ucel_SUBMIT']))
+						{														
+							$id = $_POST['ID_Rezervacia_MAPA_SUBMIT'];			
+							$id_uzivatel = $_POST['ID_Uzivatel_SUBMIT'];			
+							$id_miestnost = $_POST['ID_Miestnost_SUBMIT'];			
+							$ucel = $_POST['Ucel_SUBMIT'];													
+							$mysql = new Connection();
+							$mysql_result = $mysql->updateRezervacia($id, $id_uzivatel, $id_miestnost, $ucel);								
+							if($mysql_result == null){
+								$message = 'Nastala chyba pri zmene.';
+							}
+							else
+							{								
+								$message2 = 'Rezervacia bola uspesne zmenena';
+							}										
+						}												
+					}										
+				}				
+			}		
+				
+			$this->show('Kalendar', 'kalendar',array('message' => $message, 'message2' => $message2));
 		}	
 		else{
 			$this->showLogin('Pre vstup je nutné by prihlásenı.');

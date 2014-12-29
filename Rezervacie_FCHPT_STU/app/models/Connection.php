@@ -328,5 +328,60 @@ class Connection
 			return null;
 		}
 	}
+	
+	public function updateRezervacia($id, $id_uzivatel, $id_miestnost, $ucel){
+		if($this->connect != null){
+			$sql = 'UPDATE rezervacia
+					SET ID_Uzivatel=:idu, ID_Miestnost=:idm, Ucel=:ucel
+					WHERE Id=:id';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':idu' => $id_uzivatel, ':id' => $id, ':idm' => $id_miestnost, ':ucel' => $ucel));			
+			$stmt->closeCursor();			
+			return true;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function updateMapaRezervacie($id, $id_rezervacie, $zaciatok, $koniec, $pocet_osob ){
+		if($this->connect != null){
+			$sql = 'UPDATE mapa_rezervacie
+					SET ID_Rezervacia=:idr, Zaciatok=:zac, Koniec=:kon, Pocet_Osob=:poc
+					WHERE Id=:id';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':idr' => $id_rezervacie, ':id' => $id, ':zac' => $zaciatok, ':kon' => $koniec, ':poc' => $pocet_osob));			
+			$stmt->closeCursor();			
+			return true;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function getRezervacie(){
+		if($this->connect != null){
+			$sql = 'SELECT mapa_rezervacie.ID,mapa_rezervacie.ID_Rezervacia,mapa_rezervacie.Zaciatok,mapa_rezervacie.Koniec,mapa_rezervacie.Pocet_Osob,rezervacia.Ucel,rezervacia.ID_Uzivatel,uzivatel.Meno,uzivatel.Priezvisko,uzivatel.login,rezervacia.ID_Miestnost,miestnost.Nazov,miestnost.Kapacita
+				FROM mapa_rezervacie 
+				INNER JOIN rezervacia
+				ON mapa_rezervacie.ID_Rezervacia=rezervacia.ID
+				INNER JOIN uzivatel
+				ON rezervacia.ID_Uzivatel=uzivatel.ID
+				INNER JOIN miestnost
+				ON rezervacia.ID_Miestnost=miestnost.ID';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute();
+			
+			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
+				$users[] = $row;
+			}
+			
+			$stmt->closeCursor();
+			return $users;
+		}
+		else{
+			return null;
+		}
+	}
 }
 ?>
