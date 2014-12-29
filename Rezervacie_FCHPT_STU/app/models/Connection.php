@@ -371,7 +371,6 @@ class Connection
 				ON rezervacia.ID_Miestnost=miestnost.ID';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();	
-			$result = $stmt->fetch();
 			$rezervacie = '';
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
 				$rezervacie[] = $row;
