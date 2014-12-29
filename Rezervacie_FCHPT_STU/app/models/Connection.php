@@ -373,14 +373,60 @@ class Connection
 			$stmt->execute();
 			
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
-				$users[] = $row;
+				$rezervacie[] = $row;
 			}
 			
 			$stmt->closeCursor();
-			return $users;
+			return $rezervacie;
 		}
 		else{
 			return null;
+		}
+	}
+	
+	public function getNumberOfReservationsInMapByID($id){
+		if($this->connect != null){
+			$sql = 'SELECT Count(*)
+				FROM mapa_rezervacie 
+				WHERE ID_Rezervacia=:id';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':id' => $id));			
+			$result = $stmt->fetch();			
+			$stmt->closeCursor();
+			return $result;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function deleteReservationInMapByID($id){
+		if($this->connect != null){
+			$sql = 'DELETE
+				FROM mapa_rezervacie 
+				WHERE ID=:id';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':id' => $id));				
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+	
+	public function deleteReservationByID($id){
+		if($this->connect != null){
+			$sql = 'DELETE
+				FROM rezervacia 
+				WHERE ID=:id';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':id' => $id));				
+			$stmt->closeCursor();
+			return true;
+		}
+		else{
+			return false;
 		}
 	}
 }

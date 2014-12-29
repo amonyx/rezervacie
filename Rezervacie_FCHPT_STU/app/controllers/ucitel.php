@@ -50,8 +50,43 @@ class Ucitel extends Controller
 						}												
 					}										
 				}				
-			}		
+			}					
+			if(@$_POST['ID_MAPA_SUBMIT_DELETE']){
 				
+				if(isset($_POST['ID_MAPA_SUBMIT_DELETE']) && isset($_POST['ID_REZERVACIA_SUBMIT_DELETE']))
+				{
+					$id_mapa = $_POST['ID_MAPA_SUBMIT_DELETE'];			
+					$id_rezervacia = $_POST['ID_REZERVACIA_SUBMIT_DELETE'];											
+					$mysql = new Connection();
+					$mysql_result_pocet = $mysql->getNumberOfReservationsInMapByID($id_rezervacia);								
+					
+					$mysql = new Connection();
+					$mysql_result = $mysql->deleteReservationInMapByID($id_mapa);								
+					if($mysql_result == true)
+					{
+						if($mysql_result_pocet[0] == 1){
+							
+							$mysql = new Connection();
+							$mysql_result = $mysql->deleteReservationByID($id_rezervacia);								
+							if($mysql_result == true){
+								$message2 = 'Rezervacia uspesne odstranena';
+							}
+							else{
+								$message = 'Nastala chyba pri odstraneni rezervacii';
+							}		
+						}
+						else
+						{
+							$message2 = 'Rezervacia uspesne odstranena';
+						}						
+					}
+					else{
+						$message = 'Nastala chyba pri odstraneni mapy rezervacie';
+					}
+					
+					
+				}
+			}			
 			$this->show('Kalendar', 'kalendar',array('message' => $message, 'message2' => $message2));
 		}	
 		else{

@@ -29,7 +29,7 @@ function saveToFormsInputs(e){
 
 function deleteRezervacia(e)
 {
-	var rezervacia = rezervacie[e.ID].split(',');
+	var rezervacia = rezervacie[e.ID].split('|||');
 	document.getElementById('ID_MAPA_SUBMIT_DELETE').value = rezervacia[0];
 	document.getElementById('ID_REZERVACIA_SUBMIT_DELETE').value =  rezervacia[1];
 }
@@ -1774,6 +1774,7 @@ window.dhtmlXScheduler = window.scheduler = {
     }, scheduler.deleteEvent = function(e, t) {
         var i = this._events[e];		
 		deleteRezervacia(i);
+		document.getElementById('MAPA_REZERVACIA_FORM_DELETE').submit();				
         (t || this.callEvent("onBeforeEventDelete", [e, i]) && this.callEvent("onConfirmedBeforeEventDelete", [e, i])) && (i && (this._select_id = null, delete this._events[e], this.event_updated(i)), this.callEvent("onEventDeleted", [e, i]))
     }, scheduler.getEvent = function(e) {
         return this._events[e]
