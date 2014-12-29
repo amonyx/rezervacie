@@ -50,7 +50,7 @@
 <span style="color:red;"><?=$data['message']?></span>
 <span style="color:green;"><?=$data['message2']?></span>
 <script type="text/javascript" charset="utf-8">
-	function init() {		
+	function init() {				
 		scheduler.config.multi_day = false;		
 		scheduler.config.drag_resize = false;
 		scheduler.config.drag_move = false;
@@ -80,12 +80,19 @@
 		}
 		path = <?php echo json_encode("http://". DOMAIN."/".URL_BASE."/"); ?>;		
 		var miestnosti_php = <?php $mysql = new Connection(); $result = $mysql->getAllRooms();		
-			$arr_length = count($result);
-			$result_string = "";
-			for($i=0; $i < $arr_length; $i++){
-				$result_string = $result_string . $result[$i]['Nazov']. '|||' . $result[$i]['Kapacita'] . '|||' . $result[$i]['ID'] .'#';
+			if($result == "")
+			{
+				echo json_encode("");				
 			}
-			echo json_encode($result_string);
+			else
+			{
+				$arr_length = count($result);
+				$result_string = "";
+				for($i=0; $i < $arr_length; $i++){
+					$result_string = $result_string . $result[$i]['Nazov']. '|||' . $result[$i]['Kapacita'] . '|||' . $result[$i]['ID'] .'#';
+				}
+				echo json_encode($result_string);
+			}
 		?>;
 		admin = <?php echo json_encode($this->user->admin);?>;
 		
@@ -112,21 +119,29 @@
 			{ name: "Datum", height: 72, type: "time", map_to: "auto"}		
 		];
 		
-		var rezervacie_php = <?php $mysql = new Connection(); $result = $mysql->getRezervacie();		
-			$arr_length = count($result);
-			$result_string = "";
-			for($i=0; $i < $arr_length; $i++){
-				$result_string = $result_string . $result[$i]['ID']. '|||'.$result[$i]['ID_Rezervacia']. '|||'.$result[$i]['Zaciatok']. '|||'.$result[$i]['Koniec']. '|||'.$result[$i]['Pocet_Osob']. '|||'
-				.$result[$i]['ID_Uzivatel']. '|||' .$result[$i]['Meno']. '|||'.$result[$i]['Priezvisko']. '|||' .$result[$i]['login']. '|||' 
-				.$result[$i]['ID_Miestnost']. '|||' .$result[$i]['Nazov']. '|||' .$result[$i]['Kapacita']. '|||' .$result[$i]['Ucel']. '#';
+		var rezervacie_php = <?php 
+			$mysql = new Connection(); $result = $mysql->getRezervacie();		
+			if($result == "")
+			{
+				echo json_encode("");				
 			}
-			echo json_encode($result_string);
-			
+			else
+			{
+				$arr_length = count($result);
+				
+				$result_string = "";
+				for($i=0; $i < $arr_length; $i++){
+					$result_string = $result_string . $result[$i]['ID']. '|||'.$result[$i]['ID_Rezervacia']. '|||'.$result[$i]['Zaciatok']. '|||'.$result[$i]['Koniec']. '|||'.$result[$i]['Pocet_Osob']. '|||'
+					.$result[$i]['ID_Uzivatel']. '|||' .$result[$i]['Meno']. '|||'.$result[$i]['Priezvisko']. '|||' .$result[$i]['login']. '|||' 
+					.$result[$i]['ID_Miestnost']. '|||' .$result[$i]['Nazov']. '|||' .$result[$i]['Kapacita']. '|||' .$result[$i]['Ucel']. '#';
+				}
+				echo json_encode($result_string);
+			}
 		?>;						
 		rezervacie = rezervacie_php.split('#');
 		scheduler.init('scheduler_here', new Date(), "week");
 		var reze = [
-				];		
+				];	
 		for(var rez in rezervacie)
 		{			
 			if(rezervacie[rez]!="")
@@ -144,8 +159,13 @@
 				}
 			}
 		}			
-		
-		scheduler.parse(reze,"json");				
+					
+		if(reze.length != 0)
+		{
+			scheduler.parse(reze,"json");	
+		}
+			
+				
 	}
 	
 	function show_minical(){
