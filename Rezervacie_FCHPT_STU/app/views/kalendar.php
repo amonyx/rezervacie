@@ -153,11 +153,7 @@
 				if(loguser == Uzivatel)
 				{
 					reze.push({start_date:rezervacia[2], end_date:rezervacia[3], ID:rez, meno:rezervacia[6], priezvisko:rezervacia[7], miestnost:rezervacia[10]+":"+rezervacia[9], uzivatel:rezervacia[8], pocet_osob:rezervacia[4], ucel:rezervacia[12], text:TEXT, miestnost_kapacita:rezervacia[10] + "(" + rezervacia[11] + ")" ,kapacita:rezervacie[11], color:"green"});
-				}
-				else
-				{
-					reze.push({start_date:rezervacia[2], end_date:rezervacia[3], ID:rez[0], meno:rezervacia[6], priezvisko:rezervacia[7], miestnost:rezervacia[10]+":"+rezervacia[9], uzivatel:rezervacia[8], pocet_osob:rezervacia[4], ucel:rezervacia[12], miestnost_kapacita:rezervacia[10] + "(" + rezervacia[11] + ")" ,kapacita:rezervacie[11], text:TEXT});
-				}
+				}				
 			}
 		}							
 		scheduler.parse(reze,"json");								
