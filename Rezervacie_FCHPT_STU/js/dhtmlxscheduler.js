@@ -929,8 +929,12 @@ window.dhtmlXScheduler = window.scheduler = {
             } else scheduler.callEvent("onEmptyClick", [scheduler.getActionData(e).date, e]);			
             if (i && scheduler.config.select) {					
                 if(t.innerText != "")
-				{				
-					document.getElementById('Details').innerText = t.innerText;					
+				{
+					document.getElementById('Details').innerText = t.innerText;		
+					var message = document.getElementById("message1");
+					message.innerHTML = "";	
+					var message2 = document.getElementById("message2");
+					message2.innerHTML = "";	
 					var user = t.innerText.split(',')[1];
 					// ZMENA alert(user); KONTROLA POUZIVATELA					
 					user = user.replace('\n','');					

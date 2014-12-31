@@ -47,8 +47,8 @@
 </form>
 <input type="hidden" id="MaxRange" value="">
 <label id="Details"></label>
-<span style="color:red;"><?=$data['message']?></span>
-<span style="color:green;"><?=$data['message2']?></span>
+<span style="color:red;" id="message1" style="float:right;"><?=$data['message']?></span>
+<span style="color:green;" id="message2" style="float:right;"><?=$data['message2']?></span>
 <script type="text/javascript" charset="utf-8">
 	function init() {				
 		scheduler.config.multi_day = false;		
