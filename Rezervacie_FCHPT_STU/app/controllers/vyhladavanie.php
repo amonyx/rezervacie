@@ -21,7 +21,7 @@ class Vyhladavanie extends Controller
 					$mysql = new Connection();
 					$mysql_result = $mysql->updateMapaRezervacie($id, $id_rezervacie, $zaciatok, $koniec, $pocet_osob);								
 					if($mysql_result == null){
-						$message = 'Nastala chyba pri zmene mapy rezervacie.';
+						$message = 'Nastala chyba pri zmene mapy rezervácie.';
 					}
 					else
 					{																								
@@ -40,14 +40,14 @@ class Vyhladavanie extends Controller
 							}
 							else
 							{								
-								$message2 = 'Rezervacia bola uspesne zmenena';
+								$message2 = 'Rezervácia bola úspešne zmenená';
 							}										
 						}												
 					}										
 				}				
 			}
 			else{
-				$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+				$this->showLogin('Pre vstup je nutné byť prihlásený.');
 			}
 		}
 		if(@$_POST['ID_MAPA_SUBMIT_DELETE']){
@@ -68,26 +68,26 @@ class Vyhladavanie extends Controller
 							$mysql = new Connection();
 							$mysql_result = $mysql->deleteReservationByID($id_rezervacia);								
 							if($mysql_result == true){
-								$message2 = 'Rezervacia uspesne odstranena';
+								$message2 = 'Rezervácia úspešne odstránená';
 							}
 							else{
-								$message = 'Nastala chyba pri odstraneni rezervacii';
+								$message = 'Nastala chyba pri odstránení rezervácií';
 							}		
 						}
 						else
 						{
-							$message2 = 'Rezervacia uspesne odstranena';
+							$message2 = 'Rezervácia úspešne odstránená';
 						}						
 					}
 					else{
-						$message = 'Nastala chyba pri odstraneni mapy rezervacie';
+						$message = 'Nastala chyba pri odstránení mapy rezervácie';
 					}									
 				}
 			}			
 			else{
-				$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+				$this->showLogin('Pre vstup je nutné byť prihlásený.');
 			}
 		}			
-		$this->show('Vy�ad�vanie','form/vyhladavanie',array('message' => $message, 'message2' => $message2));						
+		$this->show('Vyľadávanie','form/vyhladavanie',array('message' => $message, 'message2' => $message2));						
 	}
 }

@@ -47,9 +47,9 @@ class Controller{
     public function showLogin($message = '')
     {
 		if(@$_POST['prihlasenie']){
-			$message = 'Nesprávny login alebo heslo.';
+			$message = 'NesprÃ¡vny login alebo heslo.';
 		}
-		$this->show('Prihlásenie','form/login',array('message' => $message));
+		$this->show('PrihlÃ¡senie','form/login',array('message' => $message));
     }
 
 }

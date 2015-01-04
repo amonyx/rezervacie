@@ -1,7 +1,7 @@
 ﻿<hr>
 <h3 class="text-center">Prihlásenie</h3>
 <hr>
-<form method="post" role="form" class="form-horizontal">
+<form method="post" action="http://<?=DOMAIN?>/<?=URL_BASE?>/Ucitel/prihlasenie" role="form" class="form-horizontal">
 				<div class="form-group text-center">
 				<span style="color:red;"><?=$data['message']?></span>
 				</div>

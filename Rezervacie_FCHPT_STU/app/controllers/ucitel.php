@@ -2,12 +2,7 @@
 class Ucitel extends Controller
 {
 	public function index(){
-		if($this->user != null){
-				$this->show('UËiteæ','message',array('message' => 'Ste v Ëasti pre uËiteæov.'));			
-		}	
-		else{
-			$this->showLogin('Pre vstup je nutnÈ byù prihl·sen˝.');
-		}
+		$this->kalendar();
 	}
 	
 	public function kalendar($message = '',$message2 = ''){
@@ -26,7 +21,7 @@ class Ucitel extends Controller
 					$mysql = new Connection();
 					$mysql_result = $mysql->updateMapaRezervacie($id, $id_rezervacie, $zaciatok, $koniec, $pocet_osob);								
 					if($mysql_result == null){
-						$message = 'Nastala chyba pri zmene mapy rezervacie.';
+						$message = 'Nastala chyba pri zmene mapy rezerv√°cie.';
 					}
 					else
 					{																								
@@ -45,7 +40,7 @@ class Ucitel extends Controller
 							}
 							else
 							{								
-								$message2 = 'Rezervacia bola uspesne zmenena';
+								$message2 = 'Rezerv√°cia bola √∫spe≈°ne zmenen√°';
 							}										
 						}												
 					}										
@@ -69,39 +64,39 @@ class Ucitel extends Controller
 							$mysql = new Connection();
 							$mysql_result = $mysql->deleteReservationByID($id_rezervacia);								
 							if($mysql_result == true){
-								$message2 = 'Rezervacia uspesne odstranena';
+								$message2 = 'Rezerv√°cia bola √∫spe≈°ne odstr√°nen√°';
 							}
 							else{
-								$message = 'Nastala chyba pri odstraneni rezervacii';
+								$message = 'Nastala chyba pri odstr√°nen√≠ rezerv√°ci√≠';
 							}		
 						}
 						else
 						{
-							$message2 = 'Rezervacia uspesne odstranena';
+							$message2 = 'Rezerv√°cia bola √∫spe≈°ne odstr√°nen√°';
 						}						
 					}
 					else{
-						$message = 'Nastala chyba pri odstraneni mapy rezervacie';
+						$message = 'Nastala chyba pri odstr√°nen√≠ mapy rezerv√°cie';
 					}
 					
 					
 				}
 			}			
-			$this->show('Kalendar', 'kalendar',array('message' => $message, 'message2' => $message2));
+			$this->show('Kalend√°r', 'kalendar',array('message' => $message, 'message2' => $message2));
 		}	
 		else{
-			$this->showLogin('Pre vstup je nutnÈ byù prihl·sen˝.');
+			$this->showLogin('Pre vstup je nutn√© by≈• prihl√°sen√Ω.');
 		}
 	}
 	
 	public function rezervacia(){
 		if($this->user != null){
 			// vytvorenie novej rezervacie
-			$this->show('UËiteæ | Rezerv·cia','form/rezervacia',array('message' => 'Vytvorit rezervaciu'));	
+			$this->show('Uƒçiteƒæ | Rezerv√°cia','form/rezervacia',array('message' => 'Vytvori≈• rezerv√°ciu'));	
 					
 		}	
 		else{
-			$this->showLogin('Pre vstup je nutnÈ byù prihl·sen˝.');
+			$this->showLogin('Pre vstup je nutn√© by≈• prihl√°sen√Ω.');
 		}
 	}
 	
@@ -110,7 +105,7 @@ class Ucitel extends Controller
 			$this->showLogin();
 		}	
 		else{
-			$this->show('Prihl·senie','message',array('message' => 'Uû ste prÌhl·sen˝.'));
+			$this->refresh('Ucitel/');
 		}
 	}
 	
@@ -119,10 +114,10 @@ class Ucitel extends Controller
 			unset($_SESSION['id_user']);
 			setcookie('is_auth', 0, time() - 1); //zmaze cookie
 			$this->user = null;
-			$this->show('Odhl·senie','message',array('message' => 'Odhl·senie prebehlo ˙speöne.'));
+			$this->showLogin('Odhl√°senie prebehlo √∫spe≈°ne.');
 		}	
 		else{
-			$this->showLogin('Uû ste boli odhl·sen˝.');
+			$this->showLogin('U≈æ ste boli odhl√°sen√Ω.');
 		}
 	}
 	
@@ -144,7 +139,7 @@ class Ucitel extends Controller
 			$this->show('Zmena Hesla', 'form/zmenaHesla',array('message' => $message));
 		}
 		else{
-			$this->showLogin('Uû ste boli odhl·sen˝.');
+			$this->showLogin('U≈æ ste boli odhl√°sen√Ω.');
 		}
 	}
 }

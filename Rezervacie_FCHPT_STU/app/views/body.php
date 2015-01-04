@@ -21,17 +21,17 @@
 	</div>
 	</div>
 	<nav>
-	<table class="table table-hover">
+		<table class="table table-hover">
 	<thead>
 	<tr>
-		<th class="text-center"><a href="http://<?=DOMAIN?>/<?=URL_BASE?>/Vyhladavanie">Vyhľadávanie</a></th>	
+		<th class="text-center"><a href="http://<?=DOMAIN?>/<?=URL_BASE?>/Vyhladavanie">Vyhľadávanie</a></th>			
 		<?php 
 			if($this->user != null){
 				echo '<th class="text-center"><a href="http://'.DOMAIN.'/'.URL_BASE.'/Ucitel/kalendar">Kalendár</a></th>';
 				echo '<th class="text-center"><a href="http://'.DOMAIN.'/'.URL_BASE.'/Ucitel/rezervacia">Nová rezervácia</a></th>';
 				echo '<th class="text-center"><a href="http://'.DOMAIN.'/'.URL_BASE.'/Ucitel/zmenaHesla">Zmena hesla</a></th>';
 				if($this->user->admin){
-					echo '<th class="text-center"><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin">Administrácia</a></th>';									
+					echo '<th class="text-center"><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin">Administrácia</a></th>';
 				}
 			}
 		?>
@@ -52,7 +52,7 @@
 	</tr>
 	</thead>
 	</table>
-	</nav>
+	</nav>	
 	<?php require_once '/app/views/'.$view.'.php'; ?>
 	<footer>
 	</footer>

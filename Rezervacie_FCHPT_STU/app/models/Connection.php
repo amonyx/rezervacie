@@ -127,7 +127,7 @@ class Connection
 					FROM uzivatel';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();
-			
+			$users = array();
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
 				$users[] = $row;
 			}
@@ -230,9 +230,9 @@ class Connection
 					FROM typy_miestnosti';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();
-			
+			$result = array();
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
-			$result[] = $row;
+				$result[] = $row;
 			}
 			
 			$stmt->closeCursor();
@@ -261,7 +261,7 @@ class Connection
 			$sql = "SELECT * FROM miestnost";			
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();
-			$result = '';
+			$result = array();
 			
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
 			$result[] = $row;
@@ -371,7 +371,7 @@ class Connection
 				ON rezervacia.ID_Miestnost=miestnost.ID';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();	
-			$rezervacie = '';
+			$rezervacie = array();
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
 				$rezervacie[] = $row;
 			}
