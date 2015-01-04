@@ -1,13 +1,22 @@
 <?php 
 //******************ZMENA
 	if($this->user != null){				
-		if($this->user->admin){								
-			echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewUser">Vytvorenie noveho pouzivatela</a></li>';							
-			echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/ZmenaPrav">Zmena administratoskych prav</a></li>';
-			echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewRoom">Vytvorenie novej miestnosti</a></li>';
-			echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/handleRooms">Správa miestností</a></li>';
-			echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewRoomType">Vytvorenie nového typu miestnosti</a></li>';				
-			echo '<li><a href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/handleRoomTypes">Správa typov miestností</a></li>';								
+		if($this->user->admin){	
+		echo '<div class="row">';
+			echo '<div class="list-group col-md-4">';
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewUser">Vytvorenie nového používateľa</a>';							
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/ZmenaPrav">Zmena administrátorských práv</a>';
+			echo '</div>';
+			echo '<div class="list-group col-md-4">';
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewRoom">Vytvorenie novej miestnosti</a>';
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/handleRooms">Správa miestností</a>';
+			echo '</div>';
+			echo '<div class="list-group col-md-4">';
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewRoomType">Vytvorenie nového typu miestnosti</a>';				
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/handleRoomTypes">Správa typov miestností</a>';								
+			echo '</div>';
+		echo '</div>';
+		echo '</div>';
 		}
 	}
 //******************KONIEC ZMENY

@@ -31,6 +31,9 @@
 	}
 
 </style>
+<hr>
+<h3 class="text-center">Vyhľadávanie</h3>
+<hr>
 <form method="post" action="" id="MAPA_FORM">
 	<input id="ID_MAPA_SUBMIT" name="ID_MAPA_SUBMIT" type="hidden" value=""/>
 	<input id="ID_Rezervacia_MAPA_SUBMIT" name="ID_Rezervacia_MAPA_SUBMIT" type="hidden" value="" />	
@@ -328,36 +331,43 @@
 		scheduler.clearAll();
 		if(reze.length == 0)
 		{						
-			document.getElementById("message1").innerHTML = "Nenasli sa ziadne rezervacie";
+			document.getElementById("message1").innerHTML = "Nenašli sa žiadne rezervácie";
 			document.getElementById("message2").innerHTML = "";	
 			document.getElementById('Details').innerText = "";		
 		}
 		else
 		{
 			document.getElementById("message1").innerHTML = "";	
-			document.getElementById("message2").innerHTML = "Pocet najdenych rezervacii:" + reze.length;	
+			document.getElementById("message2").innerHTML = "Počet nájdených rezervácií:" + reze.length;	
 			document.getElementById('Details').innerText = "";					
 		}
 		scheduler.parse(reze,"json");			
 	}
 </script>	
-<div style="float:left;">	
-	<select id="vyhladavanie_SELECT" name="vyhladavanie_SELECT" onchange="selectOptions();">
-		<option value="KLS">Podla Klucoveho slova</option>		
-		<option value="M">Podla Miestnosti</option>
-		<option value="U">Podla Ucitela</option>
+<form role="form" class="form-horizontal">	
+<div class="col-md-4"></div>
+<div class="col-md-4">
+<div class="form-group">
+	<select class="form-control" id="vyhladavanie_SELECT" name="vyhladavanie_SELECT" onchange="selectOptions();">
+		<option value="KLS">Podľa kľúčového slova</option>		
+		<option value="M">Podľa miestnosti</option>
+		<option value="U">Podľa učiteľa</option>
 	</select>		
-	<input type="text" name="vyhladavanie_TEXT" id="vyhladavanie_TEXT"/>		
-	<input type="button" name="vyhladaj" id="vyhladaj" onclick="vyhladajFunction();" value="Vyhladaj"/>	
-	<select name="miestnsoti_SELECT" id="miestnsoti_SELECT" style="visibility:hidden;" onchange="setKalendarByMiestnosti();"></select>	
+	<br />
+	<input class="form-control" type="text" name="vyhladavanie_TEXT" id="vyhladavanie_TEXT"/>	
 </div>
-<div style="float:right;">
-	<label id="Details"></label>
+<div class="form-group">
+	<input class="form-control input-lg btn-info" type="button" name="vyhladaj" id="vyhladaj" onclick="vyhladajFunction();" value="Vyhľadaj"/>	
+	<select class="form-control" name="miestnsoti_SELECT" id="miestnsoti_SELECT" style="visibility:hidden;" onchange="setKalendarByMiestnosti();"></select>	
+</div>
+	<label class="control-label" id="Details"></label>
 	<span style="color:red;" id="message1" style="float:right;"><?=$data['message']?></span>
 	<span style="color:green;" id="message2" style="float:right;"><?=$data['message2']?></span>
 </div>
+<div class="col-md-4"></div>
+</form>
 
-<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:55%;'>
   <div class="dhx_cal_navline">
    <div class="dhx_cal_prev_button">&nbsp;</div>
 	 <div class="dhx_cal_next_button">&nbsp;</div>

@@ -1,30 +1,25 @@
-<form method="post">
-	<table>
-		<tr>
-			<td colspan="2">
+Ôªø<hr>
+<h3 class="text-center">Prihl√°senie</h3>
+<hr>
+<form method="post" role="form" class="form-horizontal">
+				<div class="form-group text-center">
 				<span style="color:red;"><?=$data['message']?></span>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="login">UûivaùeæskÈ meno:</label>
-			</td>
-			<td>
-				<input name="login" type="text"/>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<label for="heslo">Heslo:</label>
-			</td>
-			<td>
-				<input name="heslo" type="password"/>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<input name="prihlasenie" type="submit" value="Prihl·siù"/>
-			</td>
-		</tr>
-	</table>
+				</div>
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+				<div class="form-group">
+				<label class="control-label" for="login">U≈æivateƒæsk√© meno:</label>
+				<input class="form-control" name="login" type="text"/>
+				</div>
+	
+				<div class="form-group">
+				<label class="control-label" for="heslo">Heslo:</label>
+				<input class="form-control" name="heslo" type="password"/>
+				</div>
+				
+				<div class="form-group">
+				<input class="form-control input-lg btn-success" name="prihlasenie" type="submit" value="Prihl√°si≈•"/>
+				</div>
+				</div>
+				<div class="col-md-4"></div>
 </form>

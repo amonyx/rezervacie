@@ -11,6 +11,14 @@
 		}		
 	}
 </script>
+
+<?php 
+	require_once 'administracia.php';
+?>
+
+<hr>
+<h3 class="text-center">Zmena administrátorských práv</h3>
+<hr>
 <table>
 	<tr>
 		<td colspan="2">
@@ -19,10 +27,18 @@
 		</td>
 	</tr>	
 </table>
-<form method="post" action="">
-	<table>	
-		<input id="confirmID" type="hidden" name="confirmID" value=""/>
-		<input id="ChangeAdmin" type="hidden" name="ChangeAdmin" value="submit" />	
+<form method="post" action="" role="form" class="form-horizontal">
+		
+		<input class="form-control" id="confirmID" type="hidden" name="confirmID" value=""/>
+		<input class="form-control" id="ChangeAdmin" type="hidden" name="ChangeAdmin" value="submit" />	
+		<table class="table table-striped table-bordered table-hover">
+		<thead>
+		<tr>
+		<th class="text-center"><h3>Prihlasovacie meno</h3></th>
+		<th class="text-center"><h3>Má/Nemá administrátorské práva</h3></th>
+		</tr>
+		</thead>
+		<div class="form-group">
 		<?php
 			$mysql = new Connection();
 			$result = $mysql->getUsers();		
@@ -31,23 +47,28 @@
 				if($this->user->login != $result[$i]['Login'])
 				{
 					echo '<tr>';
-					echo '<td>';
-					echo '<label for="' . $result[$i]['Login'] . '"> ' . $result[$i]['Login'].':</label>';
-					echo '</td>';
-					echo '<td>';
-					echo '<input id="' . $result[$i]['Login'] . '" name="' . $result[$i]['Login'] . '"  type="checkbox" onchange="ChangeValue(this.id);this.form.submit();" ';
+					echo '<td class="text-center"><big><label class="control-label" for="' . $result[$i]['Login'] . '"> ' . $result[$i]['Login'].':</label></big></td>';
+					echo '<td class="text-center">';
+					echo '<div class="row">';
+					echo '<div class="col-md-5"></div>';
+					echo '<div class="col-md-1">';
+					echo '<input class="form-control" id="' . $result[$i]['Login'] . '" name="' . $result[$i]['Login'] . '"  type="checkbox" onchange="ChangeValue(this.id);this.form.submit();" ';
 					if($result[$i]['Admin'] == 1)
 					{
-						echo ' value=1 checked>'; 
+						echo ' value=1 checked></td>'; 
 					}
 					else
 					{
-						echo ' value=0 >';	
+						echo ' value=0 ></td>';	
 					}
-					echo '</td>';				
+					echo '</div>';
+					echo '<div class="col-md-6"></div>';
+					echo '</div>';
+					echo '</tr>';
 				}
 			}
 		?>	
 		<span id="php_code"> </span>	
-	</table>	
+		</div>
+		</table>
 </form>

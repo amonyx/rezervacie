@@ -1,10 +1,14 @@
 <?php 
 	if(!(isset($_GET['changeRoom'])) && (!(isset($_GET['deleteRoom'])))){
-?>
 
+	require_once 'administracia.php';
+	?>
+	
+<hr>
+<h3 class="text-center">Správa miestností</h3>
+<hr>
 <form action="" method="GET">
-	<p>Správa Miestnosti:</p>
-	<table>
+	<table class="table table-striped table-bordered table-hover">
 		<?php 
 			$mysql = new Connection();
 			//$test = $mysql->TEST_MIESTNOSTI_VYTVOR(100);
@@ -12,38 +16,52 @@
 
 			$arr_length = count($results);
 		?>
+		<thead>
 		<tr>
-			<td>
-				<label for="name_room">Názov:</label>
-			</td>
-			<td>
-				<label for="capacity_room">Kapacita:</label>
-			</td>
-			<td>
-				<label for="type_room">Typ:</label>
-			</td>
+			<th class="text-center">
+			<h3>Názov</h3>
+			</th>
+			<th class="text-center">
+			<h3>Kapacita</h3>
+			</th>
+			<th class="text-center">
+			<h3>Typ</h3>
+			</th>
+			<th>
+			
+			</th>
+			<th>
+			
+			</th>
 		</tr>
+		</thead>
 			<?php	
 				for($i = 0; $i < $arr_length; $i++){
 				echo "<tr>";
-					echo "<td>";
+					echo "<td class='text-center'>";
+					echo "<big>";
 					echo $results[$i]['Nazov'];
+					echo "</big>";
 					echo "</td>";
 					
-					echo "<td>";
+					echo "<td class='text-center'>";
+					echo "<big>";
 					echo $results[$i]['Kapacita'];
+					echo "</big>";
 					echo "</td>";
 					
-					echo "<td>";
+					echo "<td class='text-center'>";
+					echo "<big>";
 					$res = $mysql->getRoomTypeByID($results[$i]['ID_Typ_Miestnosti']);
 					echo $res['Nazov'];
+					echo "</big>";
 					echo "</td>";
 					
-					echo "<td>";
-					echo '<button value="'.$results[$i]["ID"].'" name="changeRoom" type="submit" id="changeRoom">Zmeniť</button>';
+					echo "<td class='text-center'>";
+					echo '<button class="btn-lg btn-warning glyphicon glyphicon-pencil" value="'.$results[$i]["ID"].'" name="changeRoom" type="submit" id="changeRoom">Zmeniť</button>';
 					echo "</td>";
-					echo "<td>";
-					echo '<button value="'.$results[$i]["ID"].'" name="deleteRoom" type="submit" id="deleteRoom">Zmazať</button>';
+					echo "<td class='text-center'>";
+					echo '<button class="btn-lg btn-danger glyphicon glyphicon-remove" value="'.$results[$i]["ID"].'" name="deleteRoom" type="submit" id="deleteRoom">Zmazať</button>';
 					echo "</td>";
 				echo "</tr>";
 				}

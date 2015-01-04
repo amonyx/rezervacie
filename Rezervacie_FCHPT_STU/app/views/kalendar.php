@@ -31,6 +31,9 @@
 	}
 
 </style>
+<hr>
+<h3 class="text-center">Kalendár</h3>
+<hr>
 <form method="post" action="" id="MAPA_FORM">
 	<input id="ID_MAPA_SUBMIT" name="ID_MAPA_SUBMIT" type="hidden" value=""/>
 	<input id="ID_Rezervacia_MAPA_SUBMIT" name="ID_Rezervacia_MAPA_SUBMIT" type="hidden" value="" />	
@@ -174,7 +177,7 @@
 			});
 	}
 </script>
-<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:75%;'>
   <div class="dhx_cal_navline">
    <div class="dhx_cal_prev_button">&nbsp;</div>
 	 <div class="dhx_cal_next_button">&nbsp;</div>

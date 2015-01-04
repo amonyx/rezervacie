@@ -1,17 +1,17 @@
-<?php
+﻿<?php
 class Admin extends Controller
 {
 	public function index(){
 		if($this->user != null){
 			if($this->user->admin){
-				$this->show('Administracia', 'form/administracia',array());					
+				$this->show('Administrácia', 'form/administracia',array());					
 			}
 			else{
-				$this->show('Oops','messages/errorMessage',array('message' => 'Pr�stup bol zamietnut�.'));
+				$this->show('Oops','messages/errorMessage',array('message' => 'Prístup bol zamietnutý.'));
 			}		
 		}	
 		else{
-			$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 	
@@ -52,40 +52,40 @@ class Admin extends Controller
 									$mysql = new Connection();
 									$mysql_result = $mysql->createUser($meno, $priezvisko, $login, $heslo, $admin);								
 									if($mysql_result == null){
-										$message = 'Nastala chyba pri vytvarani.';
+										$message = 'Nastala chyba pri vytvaraní.';
 									}
 									else
 									{
 										if(isset($_POST["genHeslo"])) 
 										{
-											$this->show('Success','messages/successMessage',array('message' => 'Pouzivatel uspesne vytvoreny. Vygenerovane Heslo: ' . $_POST['heslo'] . '.'));
+											$this->show('Success','messages/successMessage',array('message' => 'Používateľ úspešne vytvorený. Vygenerované heslo: ' . $_POST['heslo'] . '.'));
 										}
 										else
 										{
-											$this->show('Success','messages/successMessage',array('message' => 'Pouzivatel uspesne vytvoreny.'));
+											$this->show('Success','messages/successMessage',array('message' => 'Používateľ úspešne vytvorený.'));
 										}
 									}
 								}
 								else
 								{
-									$message = "Pouzivatel " . $login . " existuje.";									
+									$message = "Používateľ " . $login . " už existuje.";									
 								}
 							}
 						}							
 					}
 					else
 					{
-						$message = 'Nevyplnene udaje.';
+						$message = 'Nevyplnené údaje.';
 					}					
 				}
-				$this->show('New User', 'form/createUser',array('message' => $message));					
+				$this->show('Nový používateľ', 'form/createUser',array('message' => $message));					
 			}				
 			else{
-				$this->show('Oops','messages/errorMessage',array('message' => 'Pr�stup bol zamietnut�.'));
+				$this->show('Oops','messages/errorMessage',array('message' => 'Prístup bol zamietnutý.'));
 			}
 		}				
 		else{
-			$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+			$this->showLogin('Pre vstup je nutné byž prihlásený.');
 		}
 	}
 	
@@ -113,7 +113,7 @@ class Admin extends Controller
 							}
 							else
 							{								
-								$message2 = 'Pouzivatelovi "' . $login . '" boli uspesne zmenene administratorske prava';
+								$message2 = 'Používateľovi "' . $login . '" boli úspešne zmenené práva.';
 							}
 						}						
 					}
@@ -122,14 +122,14 @@ class Admin extends Controller
 						$this->show('Oops','messages/errorMessage',array('message' => 'Nastala chyba.'));
 					}
 				}			
-				$this->show('Zmena Prav', 'form/zmenaAdminPrav',array('message' => $message, 'message2' => $message2));					
+				$this->show('Zmena práv', 'form/zmenaAdminPrav',array('message' => $message, 'message2' => $message2));					
 			}
 			else{
-				$this->show('Oops','messages/errorMessage',array('message' => 'Pr�stup bol zamietnut�.'));
+				$this->show('Oops','messages/errorMessage',array('message' => 'Prístup bol zamietnutý.'));
 			}		
 		}	
 		else{
-			$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 	
@@ -147,11 +147,11 @@ class Admin extends Controller
 							$mysql = new Connection();
 							$mysql_result = $mysql->createRoom($name_room, $type_room ,$capacity_room);
 							if($mysql_result == null){
-								$message = 'Nastala chyba pri vytvarani.';
+								$message = 'Nastala chyba pri vytváraní.';
 							}	
 							else
 							{
-								$this->show('Succesful', 'message',array('message' => "Uspesne vytvorenie miestnosti. Nazov: " . $name_room . " Typ: " . $type_room . " Kapacita:" . $capacity_room));									
+								$this->show('Úspešné', 'message',array('message' => "Uspešné vytvorenie miestnosti. Názov: " . $name_room . " Typ: " . $type_room . " Kapacita:" . $capacity_room));									
 							}
 						}else{
 							$this->show('Oops','message',array('message' => 'Zla kapacita.'));
@@ -159,18 +159,18 @@ class Admin extends Controller
 					}
 					else
 					{
-						$message = 'Nevyplnene udaje.';
+						$message = 'Nevyplnené údaje.';
 					}
 					
 				}
-				$this->show('New Room', 'form/createRoom',array('message' => $message));		
+				$this->show('Nová miestnosť', 'form/createRoom',array('message' => $message));		
 			}				
 			else{
-				$this->show('Oops','message',array('message' => 'Pr�stup bol zamietnut�.'));
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutý.'));
 			}
 		}				
 		else{
-			$this->showLogin('Pre vstup je nutn� by? prihl�sen�.');
+			$this->showLogin('Pre vstup je nutné by? prihlásený.');
 		}
 	}
 	
@@ -180,11 +180,11 @@ class Admin extends Controller
 				$this->show('Handle Rooms', 'form/handleRooms',array('message' => $message));		
 			}				
 			else{
-				$this->show('Oops','message',array('message' => 'Pr�stup bol zamietnut�.'));
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutý.'));
 			}
 		}				
 		else{
-			$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 	
@@ -194,11 +194,11 @@ class Admin extends Controller
 				$this->show('Handle Room Types', 'form/handleRoomTypes',array('message' => $message));		
 			}				
 			else{
-				$this->show('Oops','message',array('message' => 'Pr�stup bol zamietnut�.'));
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutý.'));
 			}
 		}				
 		else{
-			$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 	
@@ -212,27 +212,27 @@ class Admin extends Controller
 								$mysql = new Connection();
 								$mysql_result = $mysql->createRoomType($name_room_type);
 								if($mysql_result == null){
-									$message = 'Nastala chyba pri vytvarani.';
+									$message = 'Nastala chyba pri vytváraní.';
 								}	
 								else
 								{
-									$this->show('Succesful', 'message',array('message' => "Uspesne vytvorenie typu miestnosti. Nazov: " . $name_room_type));									
+									$this->show('Úspešné', 'message',array('message' => "Úspešné vytvorenie typu miestnosti. Názov: " . $name_room_type));									
 								}
 						}
 						else
 						{
-							$message = 'Nevyplnene udaje.';
+							$message = 'Nevyplnené údaje.';
 						}
 						
 					}
-					$this->show('New Room Types', 'form/newRoomType',array('message' => $message));		
+					$this->show('Nový typ miestnosti', 'form/newRoomType',array('message' => $message));		
 			}				
 			else{
-				$this->show('Oops','message',array('message' => 'Pr�stup bol zamietnut�.'));
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutý.'));
 			}
 		}				
 		else{
-			$this->showLogin('Pre vstup je nutn� by� prihl�sen�.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 	

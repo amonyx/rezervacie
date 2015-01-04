@@ -1,14 +1,26 @@
 <?php 
 	if(!(isset($_GET['changeRoomType'])) && (!(isset($_GET['deleteRoomType'])))){
+
+	require_once 'administracia.php';
 ?>
 
-<form action="" method="GET">
-	<table>
+<hr>
+<h3 class="text-center">Správa typov miestností</h3>
+<hr>
+
+<form action="" method="GET" role="form">
+	<table class="table table-striped table-bordered table-hover">
+		<thead>
 		<tr>
-			<td>
-				<label for="name_room_type">Názov:</label>
-			</td>
+			<th class="text-center">
+			<h3>Názov</h3>
+			</th>
+			<th>
+			</th>
+			<th>
+			</th>
 		</tr>
+		</thead>
 			<?php	
 
 				$mysql = new Connection();
@@ -18,14 +30,16 @@
 	
 				for($i = 0; $i < $arr_length; $i++){
 				echo "<tr>";
-					echo "<td>";
+					echo "<td class='text-center'>";
+					echo "<big>";
 					echo $results[$i]['Nazov'];
+					echo "</big>";
 					echo "</td>";
-					echo "<td>";
-					echo '<button value="'.$results[$i]["ID"].'" name="changeRoomType" type="submit" id="changeRoomType">Zmeniť</button>';
+					echo "<td class='text-center'>";
+					echo '<button class="btn-lg btn-warning glyphicon glyphicon-pencil" value="'.$results[$i]["ID"].'" name="changeRoomType" type="submit" id="changeRoomType">Zmeniť</button>';
 					echo "</td>";
-					echo "<td>";
-					echo '<button value="'.$results[$i]["ID"].'" name="deleteRoomType" type="submit" id="deleteRoomType">Zmazať</button>';
+					echo "<td class='text-center'>";
+					echo '<button class="btn-lg btn-danger glyphicon glyphicon-remove" value="'.$results[$i]["ID"].'" name="deleteRoomType" type="submit" id="deleteRoomType">Zmazať</button>';
 					echo "</td>";
 				echo "</tr>";
 				}
