@@ -177,7 +177,7 @@ class Admin extends Controller
 	public function handleRooms($message = ''){
 	if($this->user != null){
 			if($this->user->admin){
-				$this->show('Handle Rooms', 'form/handleRooms',array('message' => $message));		
+				$this->show('Správa miestností', 'form/handleRooms',array('message' => $message));		
 			}				
 			else{
 				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutý.'));
@@ -191,7 +191,7 @@ class Admin extends Controller
 	public function handleRoomTypes($message = ''){
 	if($this->user != null){
 			if($this->user->admin){
-				$this->show('Handle Room Types', 'form/handleRoomTypes',array('message' => $message));		
+				$this->show('Správa typov miestností', 'form/handleRoomTypes',array('message' => $message));		
 			}				
 			else{
 				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutý.'));
