@@ -127,7 +127,7 @@ class Connection
 					FROM uzivatel';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();
-			
+			$users = array();
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
 				$users[] = $row;
 			}
@@ -230,9 +230,9 @@ class Connection
 					FROM typy_miestnosti';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();
-			
+			$result = array();
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
-			$result[] = $row;
+				$result[] = $row;
 			}
 			
 			$stmt->closeCursor();
@@ -242,7 +242,6 @@ class Connection
 			return null;
 		}
 	}
-
 	
 	public function createRoomType($name_room_type){
 		if($this->connect != null){
@@ -262,7 +261,7 @@ class Connection
 			$sql = "SELECT * FROM miestnost";			
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();
-			$result = '';
+			$result = array();
 			
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
 			$result[] = $row;
@@ -283,22 +282,6 @@ class Connection
 					WHERE ID=:id_room_type';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute(array(':id_room_type' => $id_room_type));
-			$result = $stmt->fetch();
-			$stmt->closeCursor();
-			return $result;
-		}
-		else{
-			return null;
-		}
-	}
-
-	public function getRoomIdByName($roomName){
-		if($this->connect != null){
-			$sql = 'SELECT *
-					FROM miestnost
-					WHERE Nazov=:roomName';
-			$stmt = $this->connect->prepare($sql);
-			$stmt->execute(array(':roomName' => $roomName));
 			$result = $stmt->fetch();
 			$stmt->closeCursor();
 			return $result;
@@ -388,7 +371,7 @@ class Connection
 				ON rezervacia.ID_Miestnost=miestnost.ID';
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute();	
-			$rezervacie = '';
+			$rezervacie = array();
 			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
 				$rezervacie[] = $row;
 			}
@@ -444,83 +427,6 @@ class Connection
 		}
 		else{
 			return false;
-		}
-	}
-
-	public function getLastRecord(){
-		if($this->connect != null){
-			$sql = "SELECT * 
-					FROM rezervacia
-					ORDER BY ID DESC
-					LIMIT 1";			
-			$stmt = $this->connect->prepare($sql);
-			$stmt->execute();			
-			$result = $stmt->fetch();			
-			$stmt->closeCursor();
-			return $result;
-		}
-		else{
-			return null;
-		}
-	}
-
-	public function createReservation($user, $room, $ucel){
-		if($this->connect != null){
-			$sql = "INSERT INTO rezervacia 
-					SET ID_Uzivatel=:user,
-					ID_Miestnost=:room,
-					Ucel=:ucel";			
-			$stmt = $this->connect->prepare($sql);
-			$stmt->execute(array(':user' => $user, ':room' => $room,':ucel' => $ucel) );			
-			$stmt->closeCursor();
-			return true;
-		}
-		else{
-			return null;
-		}
-	}
-
-	public function createReservationMap($id, $zaciatok, $koniec, $pocet, $iteracia){
-		if($this->connect != null){
-			$sql = "INSERT INTO mapa_rezervacie 
-					SET ID_Rezervacia=:id,
-					Zaciatok=:zaciatok,
-					Koniec=:koniec,
-					Pocet_Osob=:pocet";			
-			
-			$zaciatok = new DateTime($zaciatok);
-			$zaciatok->add(new DateInterval('P'.$iteracia*7 .'D'));
-			$zaciatok = $zaciatok->format('Y-m-d H:i:s');
-			$koniec = new DateTime($koniec);
-			$koniec->add(new DateInterval('P'.$iteracia*7 .'D'));
-			$koniec = $koniec->format('Y-m-d H:i:s');
-
-			$stmt = $this->connect->prepare($sql);
-			$stmt->execute(array(':id' => $id, 
-					':zaciatok' => $zaciatok, 
-					':koniec' => $koniec,
-					':pocet' => $pocet));			
-			$stmt->closeCursor();
-			return true;
-		}
-		else{
-			return null;
-		}
-	}
-
-	public function createNewLog($user, $akcia, $popis){
-		if($this->connect != null){
-			$sql = "INSERT INTO logy 
-					SET Uzivatel=:user,
-					Akcia=:akcia,
-					Popis=:popis";			
-			$stmt = $this->connect->prepare($sql);
-			$stmt->execute(array(':user' => $user, ':akcia' => $akcia, ':popis' => $popis) );			
-			$stmt->closeCursor();
-			return true;
-		}
-		else{
-			return null;
 		}
 	}
 }

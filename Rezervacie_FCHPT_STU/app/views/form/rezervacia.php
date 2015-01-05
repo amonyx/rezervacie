@@ -1,7 +1,7 @@
 <?php 
 
 function showTimeSelector($text){
-	echo ' <select name="' . $text . 'Hour">';
+	echo ' <select class="form-control" name="' . $text . 'Hour">';
 	for ($i = 0; $i <= 23; $i++) {
 		if ($i<10) {
 			if ($i==9 && $text=="start") {
@@ -20,7 +20,7 @@ function showTimeSelector($text){
 	}
 	echo '</select> : ';
 	
-	echo ' <select name="' . $text . 'Minute">';
+	echo ' <select class="form-control" name="' . $text . 'Minute">';
 	for ($i = 0; $i < 12; $i++) {
 		if ($i<2) {
 		  echo '<option value="0' . $i*5 . '">0' . $i*5 . '</option>' . "\n";
@@ -36,23 +36,47 @@ function showTimeSelector($text){
 	if($this->user != null){	
 		
 		?>
+		<hr>
+		<h3 class="text-center">Nová rezervácia</h3>
+		<hr>
+		<form method="post" role="form" class="form-horizontal">
 		
-		<h3>Pridanie rezervácie</h3>
-		
-		<form method="post">
-		Typy miestností: <br>
+		<div class="col-md-1"></div>
+		<div class="col-md-3">
+		<div class="form-group">
+		<table class="table">
+		<thead>
+		<tr>
+		<th>
+		<strong class="text-center">Typy miestností</strong>
+		</th>
+		<th>
+		</th>
+		</tr>
+		</thead>
 		<?php 
 			$mysql = new Connection();
 			$result = $mysql->getRoomTypes();		
 			for($i=0; $i < count($result); $i++){
-					echo '<input type="checkbox" name="' . $result[$i]['ID'] . '" id="room' . $result[$i]['ID'] . '">';
-					echo '<label for="room' . $result[$i]['ID'] . '"> ' . $result[$i]['Nazov'] . '</label><br>';							
+					echo '<tr>';
+					echo '<td>';
+					echo '<input class="form-control" type="checkbox" name="' . $result[$i]['ID'] . '" id="room' . $result[$i]['ID'] . '">';		
+					echo '</td>';
+					echo '<td>';
+					echo '<label class="control-label" for="room' . $result[$i]['ID'] . '"> ' . $result[$i]['Nazov'] . '</label>';
+					echo '</td>';
+					echo '</tr>';			
 			} 
 		?>
+		</table>
+		</div>
+		</div>
+		<div class="col-md-1"></div>
 		
-		<p>
-		<label for="miestnost">Výber miestnosti: </label>
-		<select name="miestnost" id="miestnost">
+		<div class="col-md-6">
+		<div class="form-group">
+		<label class="control-label" for="miestnost">Výber miestnosti: </label>
+		<select class="form-control" name="miestnost" id="miestnost">
 		<?php 
 			$mysql = new Connection();
 			$result = $mysql->getAllRooms();		
@@ -60,14 +84,19 @@ function showTimeSelector($text){
 					echo '<option value="' . $result[$i]['Nazov'] . '">' . $result[$i]['Nazov'] . '</option>' . "\n";
 			} 
 		?>	
-		</select></p>
+		</select>
+		</div>
 		
-		<p><label for="ucel">Účel rezervácie: </label><br>
-		<textarea name="ucel" id="ucel" rows="6" cols="25" placeholder="Vyplňte účel vytvorenia rezervácie"></textarea></p>
+		<div class="form-group">
+		<label class="control-label" for="ucel">Účel rezervácie: </label>
+		<textarea class="form-control" name="ucel" id="ucel" rows="3" cols="35" placeholder="Vyplňte účel vytvorenia rezervácie"></textarea>
+		</div>
 		
-		<p><label for="pocetOsob">Počet osôb: </label>
-		<input type="range" name="pocetOsob" oninput="number1.value=pocetOsob.value" id="pocetOsob" min="1" max="20" value="10">
-		<output name="number1" for="pocetOsob" id="number1">10</output></p>
+		<div class="form-group">
+		<label class="control-label" for="pocetOsob">Počet osôb: </label>
+		<input class="form-control" type="range" name="pocetOsob" oninput="number1.value=pocetOsob.value" id="pocetOsob" min="1" max="20" value="10">
+		<output class="form-control" name="number1" for="pocetOsob" id="number1">10</output>
+		</div>
 		<!-- <div id="demo"></div> -->
 
 		<script type="text/javascript">
@@ -100,39 +129,49 @@ function showTimeSelector($text){
 		});
 		</script>
 		
-		<p>
-		Začiatok:
-		<link rel="stylesheet" href="../css/jquery-ui.css">
-	    <script src="../js/jquery-1.10.2.js"></script>
-	    <script src="../js/jquery-ui.js"></script>
+		<div class="form-group">
+		<strong>Začiatok:</strong>
+	    <script src="http://<?=DOMAIN?>/<?=URL_BASE?>/js/jquery-1.10.2.js"></script>
 		<script>
-		  $(function() {
-		    $("#datepicker").datepicker();
-		  });
+		  $(document).ready(function () {
+			$('#datepicker').datepicker({
+			  format: "dd/mm/yyyy"
+			});
+
+		   $('.dp').on('change', function(){
+			   $('.dp').hide();
+		   });
+
+			});
   		</script>
-		<input type="text" name="startDate" id="datepicker">
+		 <div class="hero-unit">
+			<input class="form-control" name="startDate" type="text" class="dp" size="8" id="datepicker">
+		</div>
 		<?php
 		showTimeSelector("start");
 		?>
-		</p>
+		</div>
 
-		<p>
-		Koniec:
+		<div class="form-group">
+		<strong>Koniec:</strong>
 		<?php
 		showTimeSelector("end");
 		?>
-		</p>
+		</div>
 		
-		<p><label for="opakovania">Počet opakovaní: </label>
-		<input type="range" name="opakovania" oninput="number2.value=opakovania.value" id="opakovania" min="1" max="10" value="1">
-		<output name="number2" for="opakovania">1</output></p>
+		<div class="form-group">
+		<label class="control-label" for="opakovania">Počet opakovaní: </label>
+		<input class="form-control" type="range" name="opakovania" oninput="number2.value=opakovania.value" id="opakovania" min="1" max="10" value="1">
+		<output class="form-control" name="number2" for="opakovania">1</output>
+		</div>
 		
-		<input type="submit" name="vytvorRezervaciu" value="Vytvoriť rezerváciu">
+		<div class="form-group">
+		<input class="form-control input-lg btn-success" type="submit" name="vytvorRezervaciu" value="Vytvoriť rezerváciu">
+		</div>
 		
+		</div>
+		<div class="col-md-1"></div>
 		</form>
-		<?php
-		
+		<?php	
 	}
-
-
 ?>
