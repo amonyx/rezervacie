@@ -2,7 +2,12 @@
 class Ucitel extends Controller
 {
 	public function index(){
-		$this->kalendar();
+		if($this->user != null){
+				$this->show('Učiteľ','message',array('message' => 'Ste v časti pre učiteľov.'));			
+		}	
+		else{
+			$this->showLogin('Pre vstup je nutné by prihlásený.');
+		}
 	}
 	
 	public function kalendar($message = '',$message2 = ''){
@@ -21,7 +26,7 @@ class Ucitel extends Controller
 					$mysql = new Connection();
 					$mysql_result = $mysql->updateMapaRezervacie($id, $id_rezervacie, $zaciatok, $koniec, $pocet_osob);								
 					if($mysql_result == null){
-						$message = 'Nastala chyba pri zmene mapy rezervácie.';
+						$message = 'Nastala chyba pri zmene mapy rezervacie.';
 					}
 					else
 					{																								
@@ -40,7 +45,7 @@ class Ucitel extends Controller
 							}
 							else
 							{								
-								$message2 = 'Rezervácia bola úspešne zmenená';
+								$message2 = 'Rezervacia bola uspesne zmenena';
 							}										
 						}												
 					}										
@@ -64,39 +69,89 @@ class Ucitel extends Controller
 							$mysql = new Connection();
 							$mysql_result = $mysql->deleteReservationByID($id_rezervacia);								
 							if($mysql_result == true){
-								$message2 = 'Rezervácia bola úspešne odstránená';
+								$message2 = 'Rezervacia uspesne odstranena';
 							}
 							else{
-								$message = 'Nastala chyba pri odstránení rezervácií';
+								$message = 'Nastala chyba pri odstraneni rezervacii';
 							}		
 						}
 						else
 						{
-							$message2 = 'Rezervácia bola úspešne odstránená';
+							$message2 = 'Rezervacia uspesne odstranena';
 						}						
 					}
 					else{
-						$message = 'Nastala chyba pri odstránení mapy rezervácie';
+						$message = 'Nastala chyba pri odstraneni mapy rezervacie';
 					}
 					
 					
 				}
 			}			
-			$this->show('Kalendár', 'kalendar',array('message' => $message, 'message2' => $message2));
+			$this->show('Kalendar', 'kalendar',array('message' => $message, 'message2' => $message2));
 		}	
 		else{
-			$this->showLogin('Pre vstup je nutné byť prihlásený.');
+			$this->showLogin('Pre vstup je nutné by prihlásený.');
 		}
 	}
 	
 	public function rezervacia(){
 		if($this->user != null){
-			// vytvorenie novej rezervacie
-			$this->show('Učiteľ | Rezervácia','form/rezervacia',array('message' => 'Vytvoriť rezerváciu'));	
+			if(@$_POST['vytvorRezervaciu']){
+
+				if (isset($_POST['ucel']) && isset($_POST['pocetOsob']) && isset($_POST['startDate']) &&
+				isset($_POST['startHour']) && isset($_POST['startMinute']) && isset($_POST['endHour']) && isset($_POST['endMinute']) &&
+				( ($_POST['startHour']<$_POST['endHour']) || ($_POST['startHour']==$_POST['endHour'] && $_POST['startMinute']<$_POST['endMinute']))) {
+
+				$user = $this->user->id;
+				$mysql = new Connection();
+				$mysql_result = $mysql->getRoomIdByName($_POST['miestnost']);
+				$roomID = $mysql_result['ID'];
+				$ucel = $_POST['ucel'];
+
+				$mysql = new Connection();
+				$mysql_result = $mysql->createReservation($user, $roomID , $ucel);
+				if($mysql_result == null){
+					$message = 'Nastala chyba pri vytvárani.';
+				}	
+				else
+				{
+					$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " pridal do databázy novú rezerváciu";
+					$mysql = new Connection();
+					$mysql_result = $mysql->createNewLog($this->user->id, "Pridanie", $popis); //pridanie logu
+
+					$mysql = new Connection();
+					$mysql_result = $mysql->getLastRecord(); 
+					$id = $mysql_result['ID'];
+
+					$datum = array_reverse(explode("/", $_POST['startDate']));
+					$zaciatok = $datum[0] . '-' . $datum[1] . '-' . $datum[2] . ' ' . $_POST['startHour'] . ':' . $_POST['startMinute'] . ':00';
+					$koniec = $datum[0] . '-' . $datum[1] . '-' . $datum[2] . ' ' . $_POST['endHour'] . ':' . $_POST['endMinute'] . ':00';
+
+					$pocetOsob = $_POST['pocetOsob'];
+
+					$opakovania = $_POST['opakovania'];
+
+					for ($i=0;$i<$opakovania;$i++){
+					$mysql = new Connection();
+					$mysql_result = $mysql->createReservationMap($id, $zaciatok, $koniec, $pocetOsob, $i);
+					}
+
+					$this->show('Učiteľ | Rezervácia', 'message',array('message' => "Úspešné vytvorenie rezervácie."));									
+				}
+
+			
+			}
+			else {
+				$this->show('Učiteľ | Rezervácia','form/rezervacia',array('message' => 'Vytvoriť rezervaciu'));	
+				echo "Chybne vyplnený formulár.";
+			}
+			}
+
+			$this->show('Učiteľ | Rezervácia','form/rezervacia',array('message' => 'Vytvoriť rezervaciu'));	
 					
 		}	
 		else{
-			$this->showLogin('Pre vstup je nutné byť prihlásený.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 	
@@ -105,7 +160,7 @@ class Ucitel extends Controller
 			$this->showLogin();
 		}	
 		else{
-			$this->refresh('Ucitel/');
+			$this->show('Prihlásenie','message',array('message' => 'Už ste príhlásený.'));
 		}
 	}
 	
@@ -114,7 +169,7 @@ class Ucitel extends Controller
 			unset($_SESSION['id_user']);
 			setcookie('is_auth', 0, time() - 1); //zmaze cookie
 			$this->user = null;
-			$this->showLogin('Odhlásenie prebehlo úspešne.');
+			$this->show('Odhlásenie','message',array('message' => 'Odhlásenie prebehlo úspešne.'));
 		}	
 		else{
 			$this->showLogin('Už ste boli odhlásený.');
@@ -142,4 +197,6 @@ class Ucitel extends Controller
 			$this->showLogin('Už ste boli odhlásený.');
 		}
 	}
+
+
 }
