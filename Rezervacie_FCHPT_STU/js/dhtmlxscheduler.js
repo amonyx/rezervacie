@@ -1687,7 +1687,7 @@ window.dhtmlXScheduler = window.scheduler = {
         time_step: 5,
         start_on_monday: 1,
         first_hour: 0,
-        last_hour: 25,
+        last_hour: 24,
         readonly: !1,
         drag_resize: 1,
         drag_move: 1,
