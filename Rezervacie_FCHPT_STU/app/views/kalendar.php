@@ -175,7 +175,7 @@
 			});
 	}
 </script>
-<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:75%;'>
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:70%;'>
   <div class="dhx_cal_navline">
    <div class="dhx_cal_prev_button">&nbsp;</div>
 	 <div class="dhx_cal_next_button">&nbsp;</div>
