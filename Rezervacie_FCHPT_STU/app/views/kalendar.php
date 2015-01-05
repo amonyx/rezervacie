@@ -60,9 +60,7 @@
 		scheduler.config.drag_create = false;
 		scheduler.config.dblclick_create = false;
 		scheduler.config.dblclick_create = false;	
-		scheduler.config.cascade_event_display = true; // enable rendering, default value = false
-        scheduler.config.cascade_event_count = 5; // how many events events will be displayed in cascade style (max), default value = 4
-        scheduler.config.cascade_event_margin = 40; // margin between events, default value = 30		
+		
 		scheduler.config.xml_date="%Y-%m-%d %H:%i";			
 		scheduler.templates.event_text=function(start,end,event){
 			return "<b> "+event.miestnost_kapacita+"</b>,"+""+event.meno+" "+event.priezvisko+","+""+event.ucel;

@@ -58,19 +58,21 @@ function deleteRezervacia(e)
 }
 
 function setMaxRange() {
-	var maxRangeInput = document.getElementById ("MaxRange");
+	var maxRangeInput = document.getElementById("MaxRange");
 	var e = document.getElementById("MiestnostiSelect");
 	var Miestnost_Kapacita = e.options[e.selectedIndex].text;
-	var Kapacita = Miestnost_Kapacita.split('(')[1].replace(")", "");
+	var Kapacita_STR = Miestnost_Kapacita.split('(')[1].replace(")", "");
+	var Kapacita = parseInt(Kapacita_STR);
 	maxRangeInput.value = Kapacita;
-	var range_value = document.getElementById('pocetOsob').value;
+	var range_value_str = document.getElementById('pocetOsob').value;
+	var range_value = parseInt(range_value_str);
 	if(Kapacita < range_value)
 	{
 		document.getElementById('pocetOsob').value = Kapacita;
 	}
 	else
 	{
-		document.getElementById('pocetOsob').value = Kapacita;
+		document.getElementById('pocetOsob').value = range_value-1;
 		document.getElementById('pocetOsob').value = range_value;
 	}
 	setRangeLabel();
