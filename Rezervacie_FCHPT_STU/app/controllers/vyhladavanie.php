@@ -88,6 +88,6 @@ class Vyhladavanie extends Controller
 				$this->showLogin('Pre vstup je nutné byť prihlásený.');
 			}
 		}			
-		$this->show('Vyľadávanie','form/vyhladavanie',array('message' => $message, 'message2' => $message2));						
+		$this->show('Vyhľadávanie','form/vyhladavanie',array('message' => $message, 'message2' => $message2));						
 	}
 }
