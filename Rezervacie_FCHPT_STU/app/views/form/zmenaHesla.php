@@ -3,8 +3,20 @@
 <hr>
 <form method="post" role="form" class="form-horizontal">
 				<span style="color:red;"><?=$data['message']?></span>
+				<span style="color:green;"><?=$data['message2']?></span>
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
+				<div class="form-group">
+				<label class="control-label" for="stareheslo">Staré Heslo:</label>
+				<input class="form-control" name="stareheslo" id="stareheslo" type="password"  value="<?php if (isset($_POST["stareheslo"])) echo $_POST["stareheslo"]; ?>">				
+				<?php if(isset($_POST["stareheslo"])){
+						if($_POST["stareheslo"] == "")
+						{
+							echo "<font color='red'>*povinny udaj</font>";					
+						}						
+					}					
+				?>
+				</div>
 				<div class="form-group">
 				<label class="control-label" for="heslo">Heslo:</label>
 				<input class="form-control" name="heslo" id="heslo" type="password"  value="<?php if (isset($_POST["heslo"])) echo $_POST["heslo"]; ?>">				

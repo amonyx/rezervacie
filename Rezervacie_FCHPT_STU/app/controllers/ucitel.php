@@ -170,27 +170,54 @@ class Ucitel extends Controller
 		}
 	}
 	
-	public function zmenaHesla($message = ''){
+	public function zmenaHesla($message = '', $message2 = ''){
 		if($this->user != null){
 			if(@$_POST['changePassword']){
-				if(isset($_POST['heslo']))
-				{				
-					if(strlen($_POST['heslo']) >= 6)
-					{
-						if($_POST['heslo'] == $_POST['heslo2'])
-						{
-							$heslo = sha1($_POST['heslo']);
-							$mysql = new Connection();
-							
-							//doplnit zmenu hesla v db
-							
-							$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " si zmenil heslo";
-							$mysql->createNewLog($this->user->login, "Zmena hesla", $popis);
+				if(isset($_POST["stareheslo"]))
+				{
+					$stareHeslo = $this->user->heslo;
+					if(sha1($_POST['stareheslo']) == $stareHeslo)
+					{										
+						if(isset($_POST['heslo']))
+						{				
+							if(strlen($_POST['heslo']) >= 6)
+							{
+								if($_POST['heslo'] == $_POST['heslo2'])
+								{
+									$heslo = sha1($_POST['heslo']);
+									$id = $this->user->id;
+									$mysql = new Connection();
+									
+									$mysql_result = $mysql->changePass($id, $heslo);
+									if($mysql_result == null)
+									{
+										$message = 'Nastala chyba pri vytvárani.';
+									}	
+									else
+									{								
+										$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " si zmenil heslo";
+										$message2 = "Úspešne zmenené heslo.";
+										$mysql->createNewLog($this->user->login, "Zmena hesla", $popis);
+									}														
+								}
+								else
+								{
+									$message = 'Nezhodujú sa heslá.';
+								}
+							}
+							else
+							{
+								$message = 'Heslo musí mať aspoň 6 znakov.';
+							}
 						}
 					}
-				}
+					else
+					{
+						$message = 'Heslo sa nezhoduje so starym heslom.';
+					}
+				}				
 			}
-			$this->show('Zmena Hesla', 'form/zmenaHesla',array('message' => $message));
+			$this->show('Zmena Hesla', 'form/zmenaHesla',array('message' => $message, 'message2' => $message2));
 		}
 		else{
 			$this->showLogin('Pre vstup je nutné byť prihlásený.');
