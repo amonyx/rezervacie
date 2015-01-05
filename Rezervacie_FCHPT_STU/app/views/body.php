@@ -4,6 +4,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title><?=$title?></title>
+	<link href="http://<?=DOMAIN?>/<?=URL_BASE?>/css/range.css" rel="stylesheet" type="text/css">
 	<link href="http://<?=DOMAIN?>/<?=URL_BASE?>/css/bootstrap.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="http://<?=DOMAIN?>/<?=URL_BASE?>/css/bootstrap.min.css">
 	<script src="http://<?=DOMAIN?>/<?=URL_BASE?>/js/dhtmlxscheduler.js" type="text/javascript" charset="utf-8"></script>

@@ -1,6 +1,44 @@
-<?php 
+<script type="text/javascript" charset="utf-8">
+	function setOutputNumber1(){
+		document.getElementById('number1').innerHTML = document.getElementById('pocetOsob').value;	
+	}
+	
+	function setOutputNumber2(){
+		document.getElementById('number2').innerHTML = document.getElementById('opakovania').value;	
+	}
+	
+	function setMaxRange(){	
+		var e = document.getElementById("miestnost");
+		var Miestnost_Kapacita = e.options[e.selectedIndex].text;
+		var Kapacita_STR = Miestnost_Kapacita.split(':')[1];
+		var Kapacita = parseInt(Kapacita_STR);
+		var range_value_str = document.getElementById('pocetOsob').value;
+		var range_value = parseInt(range_value_str);
+		
+		if(Kapacita < range_value)
+		{			
+			document.getElementById('pocetOsob').value = Kapacita;
+			document.getElementById('number1').innerHTML = Kapacita;			
+		}
+		else
+		{						
+			document.getElementById('pocetOsob').value = range_value-1;
+			document.getElementById('pocetOsob').value = range_value;
+			document.getElementById('number1').innerHTML = range_value;
+		}
+		var slider = document.getElementById("pocetOsob");
+		if ('max' in slider) {  
+			slider.max = Kapacita;
+		} else {
+			   
+			slider.setAttribute ("max", Kapacita);
+		}
+	}
+</script>
 
+<?php 
 function showTimeSelector($text){
+echo '<td>';
 	echo ' <select class="form-control" name="' . $text . 'Hour">';
 	for ($i = 0; $i <= 23; $i++) {
 		if ($i<10) {
@@ -18,9 +56,11 @@ function showTimeSelector($text){
 		  echo '<option value="' . $i . '">' . $i . '</option>' . "\n";
 		}
 	}
-	echo '</select> : ';
+	echo '</select></td>';
 	
-	echo ' <select class="form-control" name="' . $text . 'Minute">';
+	echo '<td><strong>:</strong></td>';
+	
+	echo '<td><select class="form-control" name="' . $text . 'Minute">';
 	for ($i = 0; $i < 12; $i++) {
 		if ($i<2) {
 		  echo '<option value="0' . $i*5 . '">0' . $i*5 . '</option>' . "\n";
@@ -29,7 +69,7 @@ function showTimeSelector($text){
 		  echo '<option value="' . $i*5 . '">' . $i*5 . '</option>' . "\n";
 		}
 	}
-	echo '</select>';
+	echo '</select></td>';
 }
 
 	
@@ -41,8 +81,7 @@ function showTimeSelector($text){
 		<hr>
 		<form method="post" role="form" class="form-horizontal">
 		
-		<div class="col-md-1"></div>
-		<div class="col-md-3">
+		<div class="col-md-4">
 		<div class="form-group">
 		<table class="table">
 		<thead>
@@ -59,10 +98,10 @@ function showTimeSelector($text){
 			$result = $mysql->getRoomTypes();		
 			for($i=0; $i < count($result); $i++){
 					echo '<tr>';
-					echo '<td>';
-					echo '<input class="form-control" type="checkbox" name="' . $result[$i]['ID'] . '" id="room' . $result[$i]['ID'] . '">';		
+					echo '<td class="col-md-2">';
+					echo '<input class="form-control" type="checkbox" name="' . $result[$i]['ID'] . '" id="room' . $result[$i]['ID'] . '">';
 					echo '</td>';
-					echo '<td>';
+					echo '<td class="col-md-10">';
 					echo '<label class="control-label" for="room' . $result[$i]['ID'] . '"> ' . $result[$i]['Nazov'] . '</label>';
 					echo '</td>';
 					echo '</tr>';			
@@ -73,15 +112,15 @@ function showTimeSelector($text){
 		</div>
 		<div class="col-md-1"></div>
 		
-		<div class="col-md-6">
+		<div class="col-md-4">
 		<div class="form-group">
 		<label class="control-label" for="miestnost">Výber miestnosti: </label>
-		<select class="form-control" name="miestnost" id="miestnost">
+		<select class="form-control" name="miestnost" id="miestnost" onChange="setMaxRange();">
 		<?php 
 			$mysql = new Connection();
 			$result = $mysql->getAllRooms();		
 			for($i=0; $i < count($result); $i++){
-					echo '<option value="' . $result[$i]['Nazov'] . '">' . $result[$i]['Nazov'] . '</option>' . "\n";
+					echo '<option value="' . $result[$i]['Nazov'] . '">' . $result[$i]['Nazov'] . ':'. $result[$i]['Kapacita'] . '</option>' . "\n";
 			} 
 		?>	
 		</select>
@@ -94,40 +133,14 @@ function showTimeSelector($text){
 		
 		<div class="form-group">
 		<label class="control-label" for="pocetOsob">Počet osôb: </label>
-		<input class="form-control" type="range" name="pocetOsob" oninput="number1.value=pocetOsob.value" id="pocetOsob" min="1" max="20" value="10">
+		<input class="form-control" type="range" name="pocetOsob" oninput="number1.value=pocetOsob.value" id="pocetOsob" onChange="setOutputNumber1();">
+		<div class="col-md-5"></div>
+		<div class="col-md-2">
 		<output class="form-control" name="number1" for="pocetOsob" id="number1">10</output>
 		</div>
+		<div class="col-md-5"></div>
+		</div>
 		<!-- <div id="demo"></div> -->
-
-		<script type="text/javascript">
-
-		var miestnosti_php = <?php 
-			$mysql = new Connection(); 
-			$result = $mysql->getAllRooms();		
-			$result_string = "";
-			for($i=0; $i < count($result); $i++){
-				$result_string = $result_string . $result[$i]['Nazov']. ',' . $result[$i]['Kapacita'] . '#';
-			}
-			echo json_encode($result_string);
-		?>;
-
-		var pole_miestnosti = miestnosti_php.split("#");
-		//document.getElementById("demo").innerHTML = pole_miestnosti;
-		</script>
-		<script type="text/javascript">
-		$(document).ready(function() {
-		    $("#miestnost").change(function() {
-		       var room = $("#miestnost").val();
-		       var ind = pole_miestnosti.indexOf(room);
-
-		       $("#pocetOsob").attr({
-			      "value" : pole_miestnosti[ind-1]/2,
-			      "max" : pole_miestnosti[ind-1]
-			    });
-		       $("#number1").html(pole_miestnosti[ind-1]/2);
-		    }); 
-		});
-		</script>
 		
 		<div class="form-group">
 		<strong>Začiatok:</strong>
@@ -144,25 +157,40 @@ function showTimeSelector($text){
 
 			});
   		</script>
-		 <div class="hero-unit">
-			<input class="form-control" name="startDate" type="text" class="dp" size="8" id="datepicker">
+		<table>
+		<tr>
+		<td>
+		 <div class="hero-unit has-feedback has-feedback-right">
+			<input class="form-control" name="startDate" type="text" class="dp" size="8" id="datepicker"><i class="glyphicon glyphicon-calendar form-control-feedback"></i>
 		</div>
+		</td>
+		<td><a class="invisible">a</a></td>
 		<?php
 		showTimeSelector("start");
 		?>
+		</tr>
+		</table>
 		</div>
 
 		<div class="form-group">
 		<strong>Koniec:</strong>
+		<table>
+		<tr>
 		<?php
 		showTimeSelector("end");
 		?>
+		</tr>
+		</table>
 		</div>
 		
 		<div class="form-group">
 		<label class="control-label" for="opakovania">Počet opakovaní: </label>
-		<input class="form-control" type="range" name="opakovania" oninput="number2.value=opakovania.value" id="opakovania" min="1" max="10" value="1">
-		<output class="form-control" name="number2" for="opakovania">1</output>
+		<input class="form-control" type="range" name="opakovania" oninput="number2.value=opakovania.value" id="opakovania" min="1" max="10" value="1" onChange="setOutputNumber2();">
+		<div class="col-md-5"></div>
+		<div class="col-md-2">
+		<output class="form-control" name="number2" id="number2" for="opakovania">1</output>
+		</div>
+		<div class="col-md-5"></div>
 		</div>
 		
 		<div class="form-group">
@@ -170,8 +198,12 @@ function showTimeSelector($text){
 		</div>
 		
 		</div>
-		<div class="col-md-1"></div>
+		<div class="col-md-4"></div>
 		</form>
+		
+		<script>
+			setMaxRange();
+		</script>
 		<?php	
 	}
 ?>

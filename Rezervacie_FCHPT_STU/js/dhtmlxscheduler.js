@@ -9,84 +9,86 @@ function dtmlXMLLoaderObject(e, t, i, s) {
     return this.xmlDoc = "", this.async = "undefined" != typeof i ? i : !0, this.onloadAction = e || null, this.mainObject = t || null, this.waitCall = null, this.rSeed = s || !1, this
 }
 function changeSelectDAY(){
-	document.getElementById('select_DAY2').value = document.getElementById('select_DAY').value;
+    document.getElementById('select_DAY2').value = document.getElementById('select_DAY').value;
 }
 
 function changeSelectDAY2(){
-	document.getElementById('select_DAY').value = document.getElementById('select_DAY2').value;
+    document.getElementById('select_DAY').value = document.getElementById('select_DAY2').value;
 }
 
 function changeSelectMONTH(){
-	document.getElementById('select_MONTH2').value = document.getElementById('select_MONTH').value;
+    document.getElementById('select_MONTH2').value = document.getElementById('select_MONTH').value;
 }
 
 function changeSelectMONTH2(){
-	document.getElementById('select_MONTH').value = document.getElementById('select_MONTH2').value;
+    document.getElementById('select_MONTH').value = document.getElementById('select_MONTH2').value;
 }
 
 function changeSelectYear(){
-	document.getElementById('select_YEAR2').value = document.getElementById('select_YEAR').value;
+    document.getElementById('select_YEAR2').value = document.getElementById('select_YEAR').value;
 }
 
 function changeSelectYear2(){
-	document.getElementById('select_YEAR').value = document.getElementById('select_YEAR2').value;
+    document.getElementById('select_YEAR').value = document.getElementById('select_YEAR2').value;
 }
 
 function saveToFormsInputs(e){
-	var rezervacia = rezervacie[e.ID].split('|||');	
-	LocaleDate_START = e.start_date.toLocaleDateString().split('.');
-	LocaleDate_START = LocaleDate_START[2] + '.' + LocaleDate_START[1] + '.' + LocaleDate_START[0];
-	LocaleTime_START = e.start_date.toLocaleTimeString();
-	LocaleDate_END = e.end_date.toLocaleDateString().split('.');
-	LocaleDate_END = LocaleDate_END[2] + '.' + LocaleDate_END[1] + '.' + LocaleDate_END[0];
-	LocaleTime_END = e.end_date.toLocaleTimeString();
-	document.getElementById('ID_MAPA_SUBMIT').value = rezervacia[0];
-	document.getElementById('ID_Rezervacia_MAPA_SUBMIT').value =  rezervacia[1];
-	document.getElementById('Zaciatok_MAPA_SUBMIT').value =  LocaleDate_START + " " + LocaleTime_START;
-	document.getElementById('Koniec_MAPA_SUBMIT').value =  LocaleDate_END + " " + LocaleTime_END;
-	document.getElementById('Pocet_Osob_MAPA_SUBMIT').value =  e.pocet_osob;	
-	document.getElementById('ID_Uzivatel_SUBMIT').value =  rezervacia[5];	
-	document.getElementById('ID_Miestnost_SUBMIT').value =  e.miestnost.split(':')[1];
-	document.getElementById('Ucel_SUBMIT').value =  e.ucel;	
+    var rezervacia = rezervacie[e.ID].split('|||'); 
+    LocaleDate_START = e.start_date.toLocaleDateString().split('.');
+    LocaleDate_START = LocaleDate_START[2] + '.' + LocaleDate_START[1] + '.' + LocaleDate_START[0];
+    LocaleTime_START = e.start_date.toLocaleTimeString();
+    LocaleDate_END = e.end_date.toLocaleDateString().split('.');
+    LocaleDate_END = LocaleDate_END[2] + '.' + LocaleDate_END[1] + '.' + LocaleDate_END[0];
+    LocaleTime_END = e.end_date.toLocaleTimeString();
+    document.getElementById('ID_MAPA_SUBMIT').value = rezervacia[0];
+    document.getElementById('ID_Rezervacia_MAPA_SUBMIT').value =  rezervacia[1];
+    document.getElementById('Zaciatok_MAPA_SUBMIT').value =  LocaleDate_START + " " + LocaleTime_START;
+    document.getElementById('Koniec_MAPA_SUBMIT').value =  LocaleDate_END + " " + LocaleTime_END;
+    document.getElementById('Pocet_Osob_MAPA_SUBMIT').value =  e.pocet_osob;    
+    document.getElementById('ID_Uzivatel_SUBMIT').value =  rezervacia[5];   
+    document.getElementById('ID_Miestnost_SUBMIT').value =  e.miestnost.split(':')[1];
+    document.getElementById('Ucel_SUBMIT').value =  e.ucel; 
 }
 
 function deleteRezervacia(e)
 {
-	var rezervacia = rezervacie[e.ID].split('|||');
-	document.getElementById('ID_MAPA_SUBMIT_DELETE').value = rezervacia[0];
-	document.getElementById('ID_REZERVACIA_SUBMIT_DELETE').value =  rezervacia[1];
+    var rezervacia = rezervacie[e.ID].split('|||');
+    document.getElementById('ID_MAPA_SUBMIT_DELETE').value = rezervacia[0];
+    document.getElementById('ID_REZERVACIA_SUBMIT_DELETE').value =  rezervacia[1];
 }
 
 function setMaxRange() {
-	var maxRangeInput = document.getElementById ("MaxRange");
-	var e = document.getElementById("MiestnostiSelect");
-	var Miestnost_Kapacita = e.options[e.selectedIndex].text;
-	var Kapacita = Miestnost_Kapacita.split('(')[1].replace(")", "");
-	maxRangeInput.value = Kapacita;
-	var range_value = document.getElementById('pocetOsob').value;
-	if(Kapacita < range_value)
-	{
-		document.getElementById('pocetOsob').value = Kapacita;
-	}
-	else
-	{
-		document.getElementById('pocetOsob').value = Kapacita;
-		document.getElementById('pocetOsob').value = range_value;
-	}
-	setRangeLabel();
+    var maxRangeInput = document.getElementById("MaxRange");
+    var e = document.getElementById("MiestnostiSelect");
+    var Miestnost_Kapacita = e.options[e.selectedIndex].text;
+    var Kapacita_STR = Miestnost_Kapacita.split('(')[1].replace(")", "");
+    var Kapacita = parseInt(Kapacita_STR);
+    maxRangeInput.value = Kapacita;
+    var range_value_str = document.getElementById('pocetOsob').value;
+    var range_value = parseInt(range_value_str);
+    if(Kapacita < range_value)
+    {
+        document.getElementById('pocetOsob').value = Kapacita;
+    }
+    else
+    {
+        document.getElementById('pocetOsob').value = range_value-1;
+        document.getElementById('pocetOsob').value = range_value;
+    }
+    setRangeLabel();
 }
 function setRangeLabel() { 
-	var x = document.getElementById('pocetOsob').value; 
-	var slider = document.getElementById ("pocetOsob");
-	var maxRangeInput = document.getElementById ("MaxRange");
-	if ('max' in slider) {  
-		slider.max = maxRangeInput.value;
-	} else {
-		   
-		slider.setAttribute ("max", maxRangeInput.value);
-	}
-	document.getElementById('demo').innerHTML = x;
-}	
+    var x = document.getElementById('pocetOsob').value; 
+    var slider = document.getElementById ("pocetOsob");
+    var maxRangeInput = document.getElementById ("MaxRange");
+    if ('max' in slider) {  
+        slider.max = maxRangeInput.value;
+    } else {
+           
+        slider.setAttribute ("max", maxRangeInput.value);
+    }
+    document.getElementById('demo').innerHTML = x;
+}   
 
 function callerFunction(e, t) {
     return this.handler = function(i) {
@@ -941,39 +943,39 @@ window.dhtmlXScheduler = window.scheduler = {
             drag_id: this._drag_id,
             drag_mode: this._drag_mode
         }
-    }, scheduler._click = {	
-        dhx_cal_data: function(e) {	
-		document.getElementById('Details').textContent = "";
-		if (scheduler._ignore_next_click) return e.preventDefault && e.preventDefault(), e.cancelBubble = !0, scheduler._ignore_next_click = !1, !1;
+    }, scheduler._click = { 
+        dhx_cal_data: function(e) { 
+        document.getElementById('Details').textContent = "";
+        if (scheduler._ignore_next_click) return e.preventDefault && e.preventDefault(), e.cancelBubble = !0, scheduler._ignore_next_click = !1, !1;
             var t = e ? e.target : event.srcElement,
-                i = scheduler._locate_event(t);			
-            if (e = e || event, i) {			
+                i = scheduler._locate_event(t);         
+            if (e = e || event, i) {            
                 if ( scheduler.config.readonly) return
-            } else scheduler.callEvent("onEmptyClick", [scheduler.getActionData(e).date, e]);			
-            if (i && scheduler.config.select) {					
+            } else scheduler.callEvent("onEmptyClick", [scheduler.getActionData(e).date, e]);           
+            if (i && scheduler.config.select) {                 
                 if(t.textContent != "")
-				{
-					document.getElementById('Details').textContent = t.textContent;		
-					var message = document.getElementById("message1");
-					message.innerHTML = "";	
-					var message2 = document.getElementById("message2");
-					message2.innerHTML = "";			
-					var user = t.textContent.split(",")[1];
-					// ZMENA alert(user); KONTROLA POUZIVATELA		
-					
-					user = user.replace('\n','');					
-					if(user == loguser || admin == "1")
-					{
-						scheduler.select(i);
-					}
-				}
-				else
-				{
-					scheduler.select(i);
-				}
-				
-				
-                var s = t.className; - 1 != s.indexOf("_icon") && scheduler._click.buttons[s.split(" ")[1].replace("icon_", "")](i)				
+                {
+                    document.getElementById('Details').textContent = t.textContent;     
+                    var message = document.getElementById("message1");
+                    message.innerHTML = ""; 
+                    var message2 = document.getElementById("message2");
+                    message2.innerHTML = "";            
+                    var user = t.textContent.split(",")[1];
+                    // ZMENA alert(user); KONTROLA POUZIVATELA      
+                    
+                    user = user.replace('\n','');                   
+                    if(user == loguser || admin == "1")
+                    {
+                        scheduler.select(i);
+                    }
+                }
+                else
+                {
+                    scheduler.select(i);
+                }
+                
+                
+                var s = t.className; - 1 != s.indexOf("_icon") && scheduler._click.buttons[s.split(" ")[1].replace("icon_", "")](i)             
             } else scheduler._close_not_saved(), scheduler.unselect()
         },
         dhx_cal_prev_button: function() {
@@ -997,7 +999,7 @@ window.dhtmlXScheduler = window.scheduler = {
                     scheduler.deleteEvent(e)
                 })
             },
-            edit: function(e) {				
+            edit: function(e) {             
                 scheduler.edit(e)
             },
             save: function() {
@@ -1258,7 +1260,7 @@ window.dhtmlXScheduler = window.scheduler = {
             }
         this.update_view(), "number" == typeof s && (this._els[i][0].scrollTop = s)
     }, scheduler.setCurrentView = function(e, t) {
-		this.callEvent("onBeforeViewChange", [this._mode, this._date, t || this._mode, e || this._date]) && (this.updateView(e, t), this.callEvent("onViewChange", [this._mode, this._date]))
+        this.callEvent("onBeforeViewChange", [this._mode, this._date, t || this._mode, e || this._date]) && (this.updateView(e, t), this.callEvent("onViewChange", [this._mode, this._date]))
     }, scheduler._render_x_header = function(e, t, i, s) {
         var n = document.createElement("DIV");
         n.className = "dhx_scale_bar", this.templates[this._mode + "_scalex_class"] && (n.className += " " + this.templates[this._mode + "_scalex_class"](i));
@@ -1800,9 +1802,9 @@ window.dhtmlXScheduler = window.scheduler = {
         var d = !this._events[r.id];
         return this._events[r.id] = r, this.event_updated(r), this._loading || this.callEvent(d ? "onEventAdded" : "onEventChanged", [r.id, r]), r.id
     }, scheduler.deleteEvent = function(e, t) {
-        var i = this._events[e];		
-		deleteRezervacia(i);
-		document.getElementById('MAPA_REZERVACIA_FORM_DELETE').submit();				
+        var i = this._events[e];        
+        deleteRezervacia(i);
+        document.getElementById('MAPA_REZERVACIA_FORM_DELETE').submit();                
         (t || this.callEvent("onBeforeEventDelete", [e, i]) && this.callEvent("onConfirmedBeforeEventDelete", [e, i])) && (i && (this._select_id = null, delete this._events[e], this.event_updated(i)), this.callEvent("onEventDeleted", [e, i]))
     }, scheduler.getEvent = function(e) {
         return this._events[e]
@@ -2191,14 +2193,14 @@ window.dhtmlXScheduler = window.scheduler = {
     }, scheduler._locate_event = function(e) {
         for (var t = null; e && !t && e.getAttribute;) t = e.getAttribute("event_id"), e = e.parentNode;
         return t
-    }, scheduler.edit = function(e) {	
+    }, scheduler.edit = function(e) {   
         this._edit_id != e && (this.editStop(!1, e), this._edit_id = e, this.updateEvent(e))
-    }, scheduler.editStop = function(e, t) {		
-        if (!t || this._edit_id != t) {					
-            var i = this.getEvent(this._edit_id);											
-            i && (e && (i.text = this._editor.value), this._edit_id = null, this._editor = null, this.updateEvent(i.id), this._edit_stop_event(i, e))			
+    }, scheduler.editStop = function(e, t) {        
+        if (!t || this._edit_id != t) {                 
+            var i = this.getEvent(this._edit_id);                                           
+            i && (e && (i.text = this._editor.value), this._edit_id = null, this._editor = null, this.updateEvent(i.id), this._edit_stop_event(i, e))           
         }
-    }, scheduler._edit_stop_event = function(e, t) {		
+    }, scheduler._edit_stop_event = function(e, t) {        
         this._new_event ? (t ? this.callEvent("onEventAdded", [e.id, e]) : e && this.deleteEvent(e.id, !0), this._new_event = null) : t && this.callEvent("onEventChanged", [e.id, e])
     }, scheduler.getEvents = function(e, t) {
         var i = [];
@@ -2443,9 +2445,9 @@ window.dhtmlXScheduler = window.scheduler = {
             },
             focus: function() {}
         },
-		span:
-		{
-			render: function(e) {  			
+        span:
+        {
+            render: function(e) {           
                 return "<span style='font-size: 14px;' class='dhx_cal_ltext'></span>"
             },
             set_value: function(e, t) {
@@ -2455,23 +2457,23 @@ window.dhtmlXScheduler = window.scheduler = {
                 return e.innerHTML || ""
             },
             focus: function() {}
-		},
-		range:
-		{
-			render: function(e) { 				
-                return "<input type='range' id='pocetOsob' value='1' min='1' onchange='setRangeLabel();'><span style='font-size:14px' id='demo'></span>"				
+        },
+        range:
+        {
+            render: function(e) {               
+                return "<input type='range' id='pocetOsob' value='1' min='1' onchange='setRangeLabel();'><span style='font-size:14px' id='demo'></span>"                
             },
-            set_value: function(e, t) {	
-				document.getElementById('pocetOsob').value = t; 				
-				document.getElementById('demo').innerHTML = t;			
+            set_value: function(e, t) { 
+                document.getElementById('pocetOsob').value = t;                 
+                document.getElementById('demo').innerHTML = t;          
                 e.innerHTML = t || ""
-				setMaxRange();
+                setMaxRange();
             },
             get_value: function(e) {
                 return document.getElementById('pocetOsob').value || ""
             },
             focus: function() {}
-		},
+        },
         textarea: {
             render: function(e) {
                 var t = (e.height || "130") + "px";
@@ -2489,9 +2491,9 @@ window.dhtmlXScheduler = window.scheduler = {
             }
         },
         select: {
-            render: function(e) {				
+            render: function(e) {               
                 for (var t = (e.height || "23") + "px", i = "<div class='dhx_cal_ltext' style='height:" + t + ";'><select style='width:100%;' onClick='setMaxRange()' id='MiestnostiSelect'>", s = 0; s < e.options.length; s++) i += "<option value='" + e.options[s].key + "'>" + e.options[s].label + "</option>";                
-				return i += "</select></div>"
+                return i += "</select></div>"
             },
             set_value: function(e, t, i, s) {
                 var n = e.firstChild;
@@ -2501,7 +2503,7 @@ window.dhtmlXScheduler = window.scheduler = {
                 return e.firstChild.value
             },
             focus: function(e) {
-                var t = e.firstChild;				
+                var t = e.firstChild;               
                 scheduler._focus(t, !0)
             }
         },
@@ -2515,9 +2517,9 @@ window.dhtmlXScheduler = window.scheduler = {
                     r = 0;
                 scheduler.config.limit_time_select && (n = 60 * i.last_hour + 1, r = 60 * i.first_hour, s.setHours(i.first_hour));
                 for (var a = "", d = 0; d < t.length; d++) {
-                    var o = t[d];					
+                    var o = t[d];                   
                     switch (d > 0 && (a += " "), o) {
-                        case "%Y":							
+                        case "%Y":                          
                             e._time_format_order[3] = d, a += "<select id='select_YEAR' onchange='changeSelectYear();'>";
                             for (var l = s.getFullYear() - 5, h = 0; 10 > h; h++) a += "<option value='" + (l + h) + "'>" + (l + h) + "</option>";
                             a += "</select> ";
@@ -2537,7 +2539,7 @@ window.dhtmlXScheduler = window.scheduler = {
                             var h = r,
                                 _ = s.getDate();
                             for (e._time_values = []; n > h;) {
-                                var c = this.templates.time_picker(s);								
+                                var c = this.templates.time_picker(s);                              
                                 a += "<option value='" + h + "'>" + c + "</option>", e._time_values.push(h), s.setTime(s.valueOf() + 60 * this.config.time_step * 1e3);
                                 var u = s.getDate() != _ ? 1 : 0;
                                 h = 24 * u * 60 + 60 * s.getHours() + s.getMinutes()
@@ -2545,12 +2547,12 @@ window.dhtmlXScheduler = window.scheduler = {
                             a += "</select>"
                     }
                 }
-				var b = a.replace('select_YEAR', 'select_YEAR2');
-				b = b.replace('select_MONTH', 'select_MONTH2');
-				b = b.replace('select_DAY', 'select_DAY2');
-				b = b.replace('changeSelectYear', 'changeSelectYear2');
-				b = b.replace('changeSelectMONTH', 'changeSelectMONTH2');
-				b = b.replace('changeSelectDAY', 'changeSelectDAY2');
+                var b = a.replace('select_YEAR', 'select_YEAR2');
+                b = b.replace('select_MONTH', 'select_MONTH2');
+                b = b.replace('select_DAY', 'select_DAY2');
+                b = b.replace('changeSelectYear', 'changeSelectYear2');
+                b = b.replace('changeSelectMONTH', 'changeSelectMONTH2');
+                b = b.replace('changeSelectDAY', 'changeSelectDAY2');
                 return "<div style='height:30px;padding-top:0px;font-size:inherit;' class='dhx_section_time'>" + a + "<span style='font-weight:normal; font-size:10pt;'> &nbsp;&ndash;&nbsp; </span>" + b + "</div>"
             },
             set_value: function(e, t, i, s) {
@@ -2657,9 +2659,9 @@ window.dhtmlXScheduler = window.scheduler = {
             this._cover.style.height = Math.max(e, t) + "px", document.body.appendChild(this._cover)
         }
     }, scheduler.save_lightbox = function() {
-        var e = this._lightbox_out({}, this._lame_copy(this.getEvent(this._lightbox_id)));				
-		saveToFormsInputs(e);
-		document.getElementById('MAPA_FORM').submit();		
+        var e = this._lightbox_out({}, this._lame_copy(this.getEvent(this._lightbox_id)));              
+        saveToFormsInputs(e);
+        document.getElementById('MAPA_FORM').submit();      
         (!this.checkEvent("onEventSave") || this.callEvent("onEventSave", [this._lightbox_id, e, this._new_event])) && (this._empty_lightbox(e), this.hide_lightbox())
     }, scheduler.startLightbox = function(e, t) {
         this._lightbox_id = e, this._custom_lightbox = !0, this._temp_lightbox = this._lightbox, this._lightbox = t, this.showCover(t)
@@ -2672,10 +2674,10 @@ window.dhtmlXScheduler = window.scheduler = {
     }, scheduler._init_lightbox_events = function() {
         this.getLightbox().onclick = function(e) {
             var t = e ? e.target : event.srcElement;
-			//TLACIIIIIIIIIIDLAAAAAAAAAA			
+            //TLACIIIIIIIIIIDLAAAAAAAAAA            
             if (t.className || (t = t.previousSibling), t && t.className) switch (t.className) {
                 case "dhx_save_btn":
-                    scheduler.save_lightbox();					
+                    scheduler.save_lightbox();                  
                     break;
                 case "dhx_delete_btn":
                     var i = scheduler.locale.labels.confirm_deleting;
@@ -2694,7 +2696,7 @@ window.dhtmlXScheduler = window.scheduler = {
             }
         }, this.getLightbox().onkeydown = function(e) {
             switch ((e || event).keyCode) {
-                case scheduler.keys.edit_save:						
+                case scheduler.keys.edit_save:                      
                     if ((e || event).shiftKey) return;
                     scheduler.save_lightbox();
                     break;
