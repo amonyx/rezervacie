@@ -8,6 +8,29 @@ This software is covered by GPL license. You also can obtain Commercial or Enter
 function dtmlXMLLoaderObject(e, t, i, s) {
     return this.xmlDoc = "", this.async = "undefined" != typeof i ? i : !0, this.onloadAction = e || null, this.mainObject = t || null, this.waitCall = null, this.rSeed = s || !1, this
 }
+function changeSelectDAY(){
+	document.getElementById('select_DAY2').value = document.getElementById('select_DAY').value;
+}
+
+function changeSelectDAY2(){
+	document.getElementById('select_DAY').value = document.getElementById('select_DAY2').value;
+}
+
+function changeSelectMONTH(){
+	document.getElementById('select_MONTH2').value = document.getElementById('select_MONTH').value;
+}
+
+function changeSelectMONTH2(){
+	document.getElementById('select_MONTH').value = document.getElementById('select_MONTH2').value;
+}
+
+function changeSelectYear(){
+	document.getElementById('select_YEAR2').value = document.getElementById('select_YEAR').value;
+}
+
+function changeSelectYear2(){
+	document.getElementById('select_YEAR').value = document.getElementById('select_YEAR2').value;
+}
 
 function saveToFormsInputs(e){
 	var rezervacia = rezervacie[e.ID].split('|||');	
@@ -920,7 +943,7 @@ window.dhtmlXScheduler = window.scheduler = {
         }
     }, scheduler._click = {	
         dhx_cal_data: function(e) {	
-		document.getElementById('Details').innerText = "";
+		document.getElementById('Details').textContent = "";
 		if (scheduler._ignore_next_click) return e.preventDefault && e.preventDefault(), e.cancelBubble = !0, scheduler._ignore_next_click = !1, !1;
             var t = e ? e.target : event.srcElement,
                 i = scheduler._locate_event(t);			
@@ -928,15 +951,16 @@ window.dhtmlXScheduler = window.scheduler = {
                 if ( scheduler.config.readonly) return
             } else scheduler.callEvent("onEmptyClick", [scheduler.getActionData(e).date, e]);			
             if (i && scheduler.config.select) {					
-                if(t.innerText != "")
+                if(t.textContent != "")
 				{
-					document.getElementById('Details').innerText = t.innerText;		
+					document.getElementById('Details').textContent = t.textContent;		
 					var message = document.getElementById("message1");
 					message.innerHTML = "";	
 					var message2 = document.getElementById("message2");
-					message2.innerHTML = "";	
-					var user = t.innerText.split(',')[1];
-					// ZMENA alert(user); KONTROLA POUZIVATELA					
+					message2.innerHTML = "";			
+					var user = t.textContent.split(",")[1];
+					// ZMENA alert(user); KONTROLA POUZIVATELA		
+					
 					user = user.replace('\n','');					
 					if(user == loguser || admin == "1")
 					{
@@ -1661,7 +1685,7 @@ window.dhtmlXScheduler = window.scheduler = {
         time_step: 5,
         start_on_monday: 1,
         first_hour: 0,
-        last_hour: 25,
+        last_hour: 24,
         readonly: !1,
         drag_resize: 1,
         drag_move: 1,
@@ -2491,20 +2515,20 @@ window.dhtmlXScheduler = window.scheduler = {
                     r = 0;
                 scheduler.config.limit_time_select && (n = 60 * i.last_hour + 1, r = 60 * i.first_hour, s.setHours(i.first_hour));
                 for (var a = "", d = 0; d < t.length; d++) {
-                    var o = t[d];
+                    var o = t[d];					
                     switch (d > 0 && (a += " "), o) {
-                        case "%Y":
-                            e._time_format_order[3] = d, a += "<select>";
+                        case "%Y":							
+                            e._time_format_order[3] = d, a += "<select id='select_YEAR' onchange='changeSelectYear();'>";
                             for (var l = s.getFullYear() - 5, h = 0; 10 > h; h++) a += "<option value='" + (l + h) + "'>" + (l + h) + "</option>";
                             a += "</select> ";
                             break;
                         case "%m":
-                            e._time_format_order[2] = d, a += "<select>";
+                            e._time_format_order[2] = d, a += "<select id='select_MONTH' onchange='changeSelectMONTH();'>";
                             for (var h = 0; 12 > h; h++) a += "<option value='" + h + "'>" + this.locale.date.month_full[h] + "</option>";
                             a += "</select>";
                             break;
                         case "%d":
-                            e._time_format_order[1] = d, a += "<select>";
+                            e._time_format_order[1] = d, a += "<select id='select_DAY' onchange='changeSelectDAY();'>";
                             for (var h = 1; 32 > h; h++) a += "<option value='" + h + "'>" + h + "</option>";
                             a += "</select>";
                             break;
@@ -2513,7 +2537,7 @@ window.dhtmlXScheduler = window.scheduler = {
                             var h = r,
                                 _ = s.getDate();
                             for (e._time_values = []; n > h;) {
-                                var c = this.templates.time_picker(s);
+                                var c = this.templates.time_picker(s);								
                                 a += "<option value='" + h + "'>" + c + "</option>", e._time_values.push(h), s.setTime(s.valueOf() + 60 * this.config.time_step * 1e3);
                                 var u = s.getDate() != _ ? 1 : 0;
                                 h = 24 * u * 60 + 60 * s.getHours() + s.getMinutes()
@@ -2521,7 +2545,13 @@ window.dhtmlXScheduler = window.scheduler = {
                             a += "</select>"
                     }
                 }
-                return "<div style='height:30px;padding-top:0px;font-size:inherit;' class='dhx_section_time'>" + a + "<span style='font-weight:normal; font-size:10pt;'> &nbsp;&ndash;&nbsp; </span>" + a + "</div>"
+				var b = a.replace('select_YEAR', 'select_YEAR2');
+				b = b.replace('select_MONTH', 'select_MONTH2');
+				b = b.replace('select_DAY', 'select_DAY2');
+				b = b.replace('changeSelectYear', 'changeSelectYear2');
+				b = b.replace('changeSelectMONTH', 'changeSelectMONTH2');
+				b = b.replace('changeSelectDAY', 'changeSelectDAY2');
+                return "<div style='height:30px;padding-top:0px;font-size:inherit;' class='dhx_section_time'>" + a + "<span style='font-weight:normal; font-size:10pt;'> &nbsp;&ndash;&nbsp; </span>" + b + "</div>"
             },
             set_value: function(e, t, i, s) {
                 function n(e, t, i) {
@@ -2676,7 +2706,7 @@ window.dhtmlXScheduler = window.scheduler = {
         var e = this._lightbox;
         if (e) {
             var t = e.childNodes[1];
-            t.style.height = "0px", t.style.height = t.scrollHeight + "px", e.style.height = t.scrollHeight + scheduler.xy.lightbox_additional_height + "px", t.style.height = t.scrollHeight + "px"
+            t.style.height = "0px", t.style.height = t.scrollHeight + 20+ "px", e.style.height = t.scrollHeight + scheduler.xy.lightbox_additional_height + "px", t.style.height = t.scrollHeight + "px"
         }
     }, scheduler._init_dnd_events = function() {
         dhtmlxEvent(document.body, "mousemove", scheduler._move_while_dnd), dhtmlxEvent(document.body, "mouseup", scheduler._finish_dnd), scheduler._init_dnd_events = function() {}
