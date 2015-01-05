@@ -52,6 +52,8 @@
 			$mysql = new Connection();
 			$delete_result = $mysql->deleteRoomType($_GET['deleteRoomType']);
 			if($delete_result){
+				$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " zmazal typ miestnosti s id=" . $_GET['deleteRoomType'];
+				$mysql->createNewLog($this->user->login, "Zmazanie typu miestnosti", $popis);
 				echo "Typ miestnosti úspešne zmazaný!";
 			}else{
 				echo "Typ miestnosti sa nepodarilo zmazať!";
@@ -64,6 +66,8 @@
 				$mysql = new Connection();
 				$change_result = $mysql->changeRoomType($_POST['name_room_type']);
 				if($change_result){
+					$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " zmenil typ miestnosti " . $_POST['name_room_type'];
+					$mysql->createNewLog($this->user->login, "Zmena typu miestnosti", $popis);
 					echo "Typ miestnosti úspešne zmenený!";
 				}else{
 					echo "Typ miestnosti sa nepodarilo zmeniť!";

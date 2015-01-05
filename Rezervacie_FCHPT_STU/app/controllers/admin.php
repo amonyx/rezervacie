@@ -56,6 +56,8 @@ class Admin extends Controller
 									}
 									else
 									{
+										$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " pridal noveho užívateľa s loginom " . $login;
+										$mysql->createNewLog($this->user->login, "Pridanie užívateľa", $popis);
 										if(isset($_POST["genHeslo"])) 
 										{
 											$this->show('Success','messages/successMessage',array('message' => 'Používateľ úspešne vytvorený. Vygenerované heslo: ' . $_POST['heslo'] . '.'));
@@ -114,6 +116,8 @@ class Admin extends Controller
 							else
 							{								
 								$message2 = 'Používateľovi "' . $login . '" boli úspešne zmenené práva.';
+								$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " zmenil práva užívateľovi s loginom " . $login;
+								$mysql->createNewLog($this->user->login, "Zmena práv", $popis);
 							}
 						}						
 					}
@@ -151,6 +155,8 @@ class Admin extends Controller
 							}	
 							else
 							{
+								$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " pridal novú miestnosť " . $name_room;
+								$mysql->createNewLog($this->user->login, "Pridanie miestnosti", $popis);
 								$this->show('Úspešné', 'message',array('message' => "Uspešné vytvorenie miestnosti. Názov: " . $name_room . " Typ: " . $type_room . " Kapacita:" . $capacity_room));									
 							}
 						}else{
@@ -170,7 +176,7 @@ class Admin extends Controller
 			}
 		}				
 		else{
-			$this->showLogin('Pre vstup je nutné by? prihlásený.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 	
@@ -216,6 +222,8 @@ class Admin extends Controller
 								}	
 								else
 								{
+									$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " pridal nový typ miestnosti " . $name_room_type;
+									$mysql->createNewLog($this->user->login, "Pridanie typu miestnosti", $popis);
 									$this->show('Úspešné', 'message',array('message' => "Úspešné vytvorenie typu miestnosti. Názov: " . $name_room_type));									
 								}
 						}

@@ -76,6 +76,8 @@
 				$change_room_bool = $mysql->changeRoom($_GET['changeRoom'], $_POST['name_room'], $_POST['type_room'], $_POST['capacity_room']);
 				if($change_room_bool){
 					echo "Miestnosť úspešne zmenená!";
+					$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " zmenil miestnosť " . $_POST['name_room'];
+					$mysql->createNewLog($this->user->login, "Zmena miestnosti", $popis);
 				}else{
 					echo "Nepodarilo sa zmeniť miestnosť!";
 				}
@@ -87,6 +89,8 @@
 			$mysql = new Connection();
 			$result = $mysql->deleteRoom($_GET['deleteRoom']);
 			if($result){
+				$popis = "Admin " . $this->user->meno . ' '. $this->user->priezvisko . " zmazal miestnosť s id=" . $_GET['deleteRoom'];
+				$mysql->createNewLog($this->user->login, "Zmazanie miestnosti", $popis);
 				echo "Miestnosť úspešne vymazaná.";
 			}else{
 				echo "Chyba pri vymazávaní miestnosti!";

@@ -32,15 +32,16 @@ class Ucitel extends Controller
 							$id = $_POST['ID_Rezervacia_MAPA_SUBMIT'];			
 							$id_uzivatel = $_POST['ID_Uzivatel_SUBMIT'];			
 							$id_miestnost = $_POST['ID_Miestnost_SUBMIT'];			
-							$ucel = $_POST['Ucel_SUBMIT'];													
-							$mysql = new Connection();
+							$ucel = $_POST['Ucel_SUBMIT'];	
 							$mysql_result = $mysql->updateRezervacia($id, $id_uzivatel, $id_miestnost, $ucel);								
 							if($mysql_result == null){
 								$message = 'Nastala chyba pri zmene.';
 							}
 							else
 							{								
-								$message2 = 'Rezervácia bola úspešne zmenená';
+								$message2 = 'Rezervácia bola úspešne zmenená';					
+								$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " zmenil rezerváciu s id=" .$id;
+								$mysql->createNewLog($this->user->login, "Zmena rezervácie", $popis);
 							}										
 						}												
 					}										
@@ -55,16 +56,18 @@ class Ucitel extends Controller
 					$mysql = new Connection();
 					$mysql_result_pocet = $mysql->getNumberOfReservationsInMapByID($id_rezervacia);								
 					
-					$mysql = new Connection();
 					$mysql_result = $mysql->deleteReservationInMapByID($id_mapa);								
 					if($mysql_result == true)
 					{
+						$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " zmazal mapu rezervácie pod id=" .$id_mapa;
+						$mysql->createNewLog($this->user->login, "Zmazanie mapy rezervácie", $popis);
 						if($mysql_result_pocet[0] == 1){
 							
-							$mysql = new Connection();
 							$mysql_result = $mysql->deleteReservationByID($id_rezervacia);								
 							if($mysql_result == true){
 								$message2 = 'Rezervácia bola úspešne odstránená';
+								$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " zmazal rezerváciu s id=" .$id_rezervacia;
+								$mysql->createNewLog($this->user->login, "Zmazanie rezervácie", $popis);
 							}
 							else{
 								$message = 'Nastala chyba pri odstránení rezervácií';
@@ -103,18 +106,12 @@ class Ucitel extends Controller
 				$roomID = $mysql_result['ID'];
 				$ucel = $_POST['ucel'];
 
-				$mysql = new Connection();
 				$mysql_result = $mysql->createReservation($user, $roomID , $ucel);
 				if($mysql_result == null){
 					$message = 'Nastala chyba pri vytvárani.';
 				}	
 				else
 				{
-					$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " pridal do databázy novú rezerváciu";
-					$mysql = new Connection();
-					$mysql_result = $mysql->createNewLog($this->user->id, "Pridanie", $popis); //pridanie logu
-
-					$mysql = new Connection();
 					$mysql_result = $mysql->getLastRecord(); 
 					$id = $mysql_result['ID'];
 
@@ -127,9 +124,11 @@ class Ucitel extends Controller
 					$opakovania = $_POST['opakovania'];
 
 					for ($i=0;$i<$opakovania;$i++){
-					$mysql = new Connection();
-					$mysql_result = $mysql->createReservationMap($id, $zaciatok, $koniec, $pocetOsob, $i);
+						$mysql_result = $mysql->createReservationMap($id, $zaciatok, $koniec, $pocetOsob, $i);
 					}
+					
+					$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " pridal do databázy rezerváciu pod id=" . $id . " (" . $opakovania . " opakovaní)";
+					$mysql->createNewLog($this->user->login, "Pridanie rezervácie", $popis);
 
 					$this->show('Učiteľ | Rezervácia', 'message',array('message' => "Úspešné vytvorenie rezervácie."));									
 				}
@@ -174,14 +173,19 @@ class Ucitel extends Controller
 	public function zmenaHesla($message = ''){
 		if($this->user != null){
 			if(@$_POST['changePassword']){
-				if(isset($_POST['heslo']) && $_POST['heslo'] != '')
+				if(isset($_POST['heslo']))
 				{				
 					if(strlen($_POST['heslo']) >= 6)
 					{
 						if($_POST['heslo'] == $_POST['heslo2'])
 						{
 							$heslo = sha1($_POST['heslo']);
+							$mysql = new Connection();
 							
+							//doplnit zmenu hesla v db
+							
+							$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " si zmenil heslo";
+							$mysql->createNewLog($this->user->login, "Zmena hesla", $popis);
 						}
 					}
 				}
@@ -189,7 +193,7 @@ class Ucitel extends Controller
 			$this->show('Zmena Hesla', 'form/zmenaHesla',array('message' => $message));
 		}
 		else{
-			$this->showLogin('Už ste boli odhlásený.');
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
 		}
 	}
 }
