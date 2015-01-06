@@ -1,4 +1,40 @@
 <script type="text/javascript" charset="utf-8">
+	function changeRoomOptions(ID){	
+		var checked = document.getElementById("room"+ID).checked;
+		var select = document.getElementById("miestnost");
+		if(checked)
+		{			
+			for(var m in miestnosti)
+			{
+				if(miestnosti[m].key == ID)
+				{					
+					var option = document.createElement("option");
+					option.text = miestnosti[m].label;						
+					option.value = miestnosti[m].value;
+					select.add(option);
+				}
+			}			
+		}
+		else
+		{			
+			for(var m in miestnosti)
+			{
+				if(miestnosti[m].key == ID)
+				{					
+					var options = document.getElementById("miestnost").options;
+					for(var o = 0; o < options.length;o++)
+					{
+						if(miestnosti[m].label == options[o].text)
+						{
+							options[o].remove();
+						}
+					}
+				}
+			}	
+			
+		}
+		
+	}
 	function setOutputNumber1(){
 		document.getElementById('number1').innerHTML = document.getElementById('pocetOsob').value;	
 	}
@@ -92,7 +128,7 @@ function showTimeSelector($text){
 			for($i=0; $i < count($result); $i++){
 					echo '<tr>';
 					echo '<td class="col-md-2">';
-					echo '<input class="form-control" type="checkbox" name="' . $result[$i]['ID'] . '" id="room' . $result[$i]['ID'] . '">';
+				echo '<input class="form-control" onChange="changeRoomOptions(this.name);" type="checkbox" name="' . $result[$i]['ID'] . '" id="room' . $result[$i]['ID'] . '" checked>';
 					echo '</td>';
 					echo '<td class="col-md-10">';
 					echo '<label class="control-label" for="room' . $result[$i]['ID'] . '"> ' . $result[$i]['Nazov'] . '</label>';
@@ -108,7 +144,34 @@ function showTimeSelector($text){
 		<div class="col-md-4">
 		<div class="form-group">
 		<label class="control-label" for="miestnost">Výber miestnosti: </label>
-		<select class="form-control" name="miestnost" id="miestnost" onChange="setMaxRange();">
+		<script type="text/javascript" charset="utf-8">
+			var miestnosti_php = <?php $mysql = new Connection(); $result = $mysql->getAllRooms();		
+				if($result == '')
+				{
+					echo json_encode("");				
+				}
+				else
+				{
+					$arr_length = count($result);
+					$result_string = "";
+					for($i=0; $i < $arr_length; $i++){
+						$result_string = $result_string . $result[$i]['Nazov']. '|||' . $result[$i]['Kapacita'] . '|||' . $result[$i]['ID'] . '|||' . $result[$i]['ID_Typ_Miestnosti'].'#';
+					}
+					echo json_encode($result_string);
+				}
+			?>;
+			var miestnosti_splitter = miestnosti_php.split('#');		
+			miestnosti = [];
+			for(var t in miestnosti_splitter)
+			{
+				if(miestnosti_splitter[t]!="")
+				{									
+					var miestnost = miestnosti_splitter[t].split('|||');
+					miestnosti.push({key:miestnost[3],label:miestnost[0] + "(" + miestnost[1] + ")",value:miestnost[0]});					
+				}
+			}
+		</script>
+		<select class="form-control" name="miestnost" id="miestnost" onChange="setMaxRange();">	
 		<?php 
 			$mysql = new Connection();
 			$result = $mysql->getAllRooms();		
@@ -120,7 +183,7 @@ function showTimeSelector($text){
 					echo '<option value="' . $result[$i]['Nazov'] . '"'. '>' . $result[$i]['Nazov'] . '('. $result[$i]['Kapacita'] . ')</option>' . "\n";
 				}
 			} 
-		?>	
+		?>			
 		</select>
 		</div>
 		
