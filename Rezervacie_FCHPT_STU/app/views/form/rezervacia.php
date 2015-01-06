@@ -38,23 +38,28 @@
 
 <?php 
 function showTimeSelector($text){
-echo '<td>';
+	 
+	echo '<td>';
 	echo ' <select class="form-control" name="' . $text . 'Hour">';
 	for ($i = 0; $i <= 23; $i++) {
-		if ($i<10) {
-			if ($i==9 && $text=="start") {
-			echo '<option value="0' . $i . '" selected="selected">0' . $i . '</option>' . "\n";
+			if ((isset($_POST['startHour'])) && $_POST['startHour']==$i ) {
+				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
 			}
-		else {	
-		  echo '<option value="0' . $i . '">0' . $i . '</option>' . "\n";
-		  }
-		}
-		else {
-			if ($text=="end" && $i==11) {
-			echo '<option value="' . $i . '" selected="selected">' . $i . '</option>' . "\n";
+
+			elseif ($i==9 && $text=="start" && !isset($_POST['startHour'])) {
+				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
 			}
-		  echo '<option value="' . $i . '">' . $i . '</option>' . "\n";
-		}
+
+			elseif ((isset($_POST['startHour'])) && $_POST['startHour']==$i ) {
+				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
+			}
+		
+			elseif ($text=="end" && $i==11 && !isset($_POST['endHour'])) {
+				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
+			} 
+			else {
+		  		echo '<option value="' . sprintf('%02d', $i) . '">' . sprintf('%02d', $i) . '</option>' . "\n";
+			}
 	}
 	echo '</select></td>';
 	
@@ -62,11 +67,14 @@ echo '<td>';
 	
 	echo '<td><select class="form-control" name="' . $text . 'Minute">';
 	for ($i = 0; $i < 12; $i++) {
-		if ($i<2) {
-		  echo '<option value="0' . $i*5 . '">0' . $i*5 . '</option>' . "\n";
+		if ((isset($_POST['startMinute'])) && $_POST['startMinute']==$i*5 ) {
+		  echo '<option value="' . sprintf('%02d', $i*5) . '" selected="selected">' . sprintf('%02d', $i*5) . '</option>' . "\n";
+		}
+		elseif ((isset($_POST['endMinute'])) && $_POST['endMinute']==$i*5 ) {
+		  echo '<option value="' . sprintf('%02d', $i*5) . '" selected="selected">' . sprintf('%02d', $i*5) . '</option>' . "\n";
 		}
 		else {
-		  echo '<option value="' . $i*5 . '">' . $i*5 . '</option>' . "\n";
+			echo '<option value="' . sprintf('%02d', $i*5) . '">' . sprintf('%02d', $i*5) . '</option>' . "\n";
 		}
 	}
 	echo '</select></td>';
@@ -120,7 +128,12 @@ echo '<td>';
 			$mysql = new Connection();
 			$result = $mysql->getAllRooms();		
 			for($i=0; $i < count($result); $i++){
-					echo '<option value="' . $result[$i]['Nazov'] . '">' . $result[$i]['Nazov'] . '('. $result[$i]['Kapacita'] . ')</option>' . "\n";
+				if (($result[$i]['Nazov'] . '('. $result[$i]['Kapacita'] . ')') == ($_POST['miestnost']. '('. $result[$i]['Kapacita'] . ')')) {
+					echo '<option value="' . $result[$i]['Nazov'] . '"'. ' selected>' . $result[$i]['Nazov'] . '('. $result[$i]['Kapacita'] . ')</option>' . "\n";
+				}
+				else {
+					echo '<option value="' . $result[$i]['Nazov'] . '"'. '>' . $result[$i]['Nazov'] . '('. $result[$i]['Kapacita'] . ')</option>' . "\n";
+				}
 			} 
 		?>	
 		</select>
@@ -128,12 +141,12 @@ echo '<td>';
 		
 		<div class="form-group">
 		<label class="control-label" for="ucel">Účel rezervácie: </label>
-		<textarea class="form-control" name="ucel" id="ucel" rows="3" cols="35" placeholder="Vyplňte účel vytvorenia rezervácie"></textarea>
+		<textarea class="form-control" name="ucel" id="ucel" rows="3" cols="35" placeholder="Vyplňte účel vytvorenia rezervácie" required><?php if (isset($_POST['ucel'])) {echo $_POST['ucel'];}?></textarea>
 		</div>
 		
 		<div class="form-group">
 		<label class="control-label" for="pocetOsob">Počet osôb: </label>
-		<input class="form-control" type="range" name="pocetOsob" oninput="number1.value=pocetOsob.value" id="pocetOsob" onChange="setOutputNumber1();">
+		<input class="form-control" type="range" name="pocetOsob" min="1" oninput="number1.value=pocetOsob.value" id="pocetOsob" onChange="setOutputNumber1();" value="<?php if(isset($_POST['pocetOsob'])) {echo $_POST['pocetOsob'];}?>">
 		<div class="col-md-5"></div>
 		<div class="col-md-2">
 		<output class="form-control" name="number1" for="pocetOsob" id="number1">10</output>
@@ -161,7 +174,8 @@ echo '<td>';
 		<tr>
 		<td>
 		 <div class="hero-unit has-feedback has-feedback-right">
-			<input class="form-control" name="startDate" type="text" class="dp" size="8" id="datepicker"><i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+			<input class="form-control" name="startDate" type="text" class="dp" size="8" id="datepicker" value="<?php if(isset($_POST['startDate'])) {echo $_POST['startDate'];} ?>" required>
+			<i class="glyphicon glyphicon-calendar form-control-feedback"></i>
 		</div>
 		</td>
 		<td><a class="invisible">a</a></td>

@@ -93,10 +93,19 @@ class Ucitel extends Controller
 	}
 	
 	public function rezervacia(){
+
+		function validateDate($date, $format = 'Y-m-d H:i:s')
+		{
+		    $d = DateTime::createFromFormat($format, $date);
+		    return $d && $d->format($format) == $date;
+		}
+
 		if($this->user != null){
 			if(@$_POST['vytvorRezervaciu']){
 
-				if (isset($_POST['ucel']) && isset($_POST['pocetOsob']) && isset($_POST['startDate']) &&
+				if (!empty($_POST['ucel']) && isset($_POST['pocetOsob']) && validateDate($_POST['startDate']) &&
+				is_int($_POST['pocetOsob'])	&& $_POST['pocetOsob']>0 && is_int($_POST['opakovania']) &&
+				is_int($_POST['startHour']) && is_int($_POST['startMinute']) && is_int($_POST['endHour']) && is_int($_POST['endMinute']) &&
 				isset($_POST['startHour']) && isset($_POST['startMinute']) && isset($_POST['endHour']) && isset($_POST['endMinute']) &&
 				( ($_POST['startHour']<$_POST['endHour']) || ($_POST['startHour']==$_POST['endHour'] && $_POST['startMinute']<$_POST['endMinute']))) {
 
