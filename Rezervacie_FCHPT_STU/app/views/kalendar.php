@@ -3,7 +3,7 @@
 		margin:0px;
 		padding:0px;
 		height:100%;
-		overflow:hidden;
+		
 	}
 	/* enabling marked timespans for month view */
 	.dhx_scheduler_month .dhx_marked_timespan {
@@ -101,7 +101,7 @@
 		//loguser = "Pavel Petrovic";
 		
 		var miestnosti_splitter = miestnosti_php.split('#');		
-		var miestnosti = [];
+		miestnosti = [];
 		for(var t in miestnosti_splitter)
 		{
 			if(miestnosti_splitter[t]!="")
@@ -175,7 +175,7 @@
 			});
 	}
 </script>
-<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:70%;'>
+<div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
   <div class="dhx_cal_navline">
    <div class="dhx_cal_prev_button">&nbsp;</div>
 	 <div class="dhx_cal_next_button">&nbsp;</div>

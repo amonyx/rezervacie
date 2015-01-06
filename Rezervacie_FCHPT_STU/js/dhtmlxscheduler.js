@@ -5,9 +5,14 @@ This software is covered by GPL license. You also can obtain Commercial or Enter
 
 (c) Dinamenta, UAB.
 */
+function controlers(e){
+	rezervacia_controler_ID = e.ID;
+}
+
 function dtmlXMLLoaderObject(e, t, i, s) {
     return this.xmlDoc = "", this.async = "undefined" != typeof i ? i : !0, this.onloadAction = e || null, this.mainObject = t || null, this.waitCall = null, this.rSeed = s || !1, this
 }
+
 function changeSelectDAY(){
 	document.getElementById('select_DAY2').value = document.getElementById('select_DAY').value;
 }
@@ -33,21 +38,70 @@ function changeSelectYear2(){
 }
 
 function saveToFormsInputs(e){
-	var rezervacia = rezervacie[e.ID].split('|||');	
-	LocaleDate_START = e.start_date.toLocaleDateString().split('.');
-	LocaleDate_START = LocaleDate_START[2] + '.' + LocaleDate_START[1] + '.' + LocaleDate_START[0];
-	LocaleTime_START = e.start_date.toLocaleTimeString();
-	LocaleDate_END = e.end_date.toLocaleDateString().split('.');
-	LocaleDate_END = LocaleDate_END[2] + '.' + LocaleDate_END[1] + '.' + LocaleDate_END[0];
-	LocaleTime_END = e.end_date.toLocaleTimeString();
-	document.getElementById('ID_MAPA_SUBMIT').value = rezervacia[0];
-	document.getElementById('ID_Rezervacia_MAPA_SUBMIT').value =  rezervacia[1];
-	document.getElementById('Zaciatok_MAPA_SUBMIT').value =  LocaleDate_START + " " + LocaleTime_START;
-	document.getElementById('Koniec_MAPA_SUBMIT').value =  LocaleDate_END + " " + LocaleTime_END;
-	document.getElementById('Pocet_Osob_MAPA_SUBMIT').value =  e.pocet_osob;	
-	document.getElementById('ID_Uzivatel_SUBMIT').value =  rezervacia[5];	
-	document.getElementById('ID_Miestnost_SUBMIT').value =  e.miestnost.split(':')[1];
-	document.getElementById('Ucel_SUBMIT').value =  e.ucel;	
+	if(rezervacia_controler_ID == e.ID)
+	{
+		var rezervacia = rezervacie[e.ID].split('|||');	
+		var timestampStartDate=Date.parse(e.start_date)
+		canSubmit = false;
+		if (isNaN(timestampStartDate)==false)
+		{		
+			var timestampStartDate=Date.parse(e.end_date)
+			if (isNaN(timestampStartDate)==false)
+			{
+				LocaleDate_START = e.start_date.toLocaleDateString().split('.');
+				LocaleDate_START = LocaleDate_START[2] + '.' + LocaleDate_START[1] + '.' + LocaleDate_START[0];
+				LocaleDate_END = e.end_date.toLocaleDateString().split('.');
+				LocaleDate_END = LocaleDate_END[2] + '.' + LocaleDate_END[1] + '.' + LocaleDate_END[0];
+				if(LocaleDate_START == LocaleDate_END)
+				{
+					LocaleTime_START = e.start_date.toLocaleTimeString();			
+					LocaleTime_END = e.end_date.toLocaleTimeString();					
+					var exist = false;
+					for(var m in miestnosti)
+					{						
+						if(miestnosti[m].key == e.miestnost)
+						{
+							exist = true;
+							break;
+						}
+					}
+					if(exist)
+					{
+						document.getElementById('ID_MAPA_SUBMIT').value = rezervacia[0];
+						document.getElementById('ID_Rezervacia_MAPA_SUBMIT').value =  rezervacia[1];
+						document.getElementById('Zaciatok_MAPA_SUBMIT').value =  LocaleDate_START + " " + LocaleTime_START;
+						document.getElementById('Koniec_MAPA_SUBMIT').value =  LocaleDate_END + " " + LocaleTime_END;
+						document.getElementById('Pocet_Osob_MAPA_SUBMIT').value =  e.pocet_osob;
+						document.getElementById('ID_Uzivatel_SUBMIT').value =  rezervacia[5];	
+						document.getElementById('Ucel_SUBMIT').value =  e.ucel;	
+						document.getElementById('ID_Miestnost_SUBMIT').value =  e.miestnost.split(':')[1];
+						canSubmit = true;
+					}
+					else
+					{
+						alert("Zadaná miesnostnosť neexistuje.");
+					}												
+				}
+				else
+				{
+					alert("Dátumy musia byť identické.");
+				}
+				
+			}
+			else
+			{
+				alert("Nesprávny koncový dátum.");
+			}
+		}
+		else
+		{
+			alert("Nesprávny počiatočný dátum.");
+		}
+	}
+	else
+	{
+		alert("Zmenili ste ID rezervacie!");
+	}
 }
 
 function deleteRezervacia(e)
@@ -868,7 +922,7 @@ window.dhtmlXScheduler = window.scheduler = {
     }, scheduler.xy = {
         min_event_height: 40,
         scale_width: 50,
-        scroll_width: 18,
+        scroll_width: 5,
         scale_height: 20,
         month_scale_height: 20,
         menu_width: 25,
@@ -966,15 +1020,13 @@ window.dhtmlXScheduler = window.scheduler = {
 					user = user.replace('\n','');					
 					if(user == loguser || admin == "1")
 					{
-						scheduler.select(i);
+						scheduler.select(i);						
 					}
 				}
 				else
 				{
 					scheduler.select(i);
-				}
-				
-				
+				}							
                 var s = t.className; - 1 != s.indexOf("_icon") && scheduler._click.buttons[s.split(" ")[1].replace("icon_", "")](i)				
             } else scheduler._close_not_saved(), scheduler.unselect()
         },
@@ -999,14 +1051,14 @@ window.dhtmlXScheduler = window.scheduler = {
                     scheduler.deleteEvent(e)
                 })
             },
-            edit: function(e) {				
+            edit: function(e) {					
                 scheduler.edit(e)
             },
             save: function() {
                 scheduler.editStop(!0)
             },
-            details: function(e) {
-                scheduler.showLightbox(e)
+            details: function(e) {				
+				scheduler.showLightbox(e)
             },
             cancel: function() {
                 scheduler.editStop(!1)
@@ -2615,11 +2667,12 @@ window.dhtmlXScheduler = window.scheduler = {
         if (e) {
             if (!this.callEvent("onBeforeLightbox", [e])) return void(this._new_event && (this._new_event = null));
             var t = this.getLightbox();
-            this.showCover(t), this._fill_lightbox(e, t), this.callEvent("onLightbox", [e])
+            this.showCover(t), this._fill_lightbox(e, t), this.callEvent("onLightbox", [e])			
         }
     }, scheduler._fill_lightbox = function(e, t) {
         var i = this.getEvent(e),
             s = t.getElementsByTagName("span");
+		controlers(i);
         scheduler.templates.lightbox_header ? (s[1].innerHTML = "", s[2].innerHTML = scheduler.templates.lightbox_header(i.start_date, i.end_date, i)) : (s[1].innerHTML = this.templates.event_header(i.start_date, i.end_date, i), s[2].innerHTML = (this.templates.event_bar_text(i.start_date, i.end_date, i) || "").substr(0, 70));
         for (var n = this.config.lightbox.sections, r = 0; r < n.length; r++) {
             var a = n[r],
@@ -2661,8 +2714,11 @@ window.dhtmlXScheduler = window.scheduler = {
     }, scheduler.save_lightbox = function() {
         var e = this._lightbox_out({}, this._lame_copy(this.getEvent(this._lightbox_id)));				
 		saveToFormsInputs(e);
-		document.getElementById('MAPA_FORM').submit();		
-        (!this.checkEvent("onEventSave") || this.callEvent("onEventSave", [this._lightbox_id, e, this._new_event])) && (this._empty_lightbox(e), this.hide_lightbox())
+		if(canSubmit)
+		{
+			document.getElementById('MAPA_FORM').submit();				
+			(!this.checkEvent("onEventSave") || this.callEvent("onEventSave", [this._lightbox_id, e, this._new_event])) && (this._empty_lightbox(e), this.hide_lightbox())
+		}
     }, scheduler.startLightbox = function(e, t) {
         this._lightbox_id = e, this._custom_lightbox = !0, this._temp_lightbox = this._lightbox, this._lightbox = t, this.showCover(t)
     }, scheduler.endLightbox = function(e, t) {
