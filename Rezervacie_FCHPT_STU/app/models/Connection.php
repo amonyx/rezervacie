@@ -507,6 +507,39 @@ class Connection
 		}
 	}
 
+	public function getReservationsFromTo($room, $start, $end){
+		if($this->connect != null){
+			$sql = "SELECT mapa_rezervacie.ID_Rezervacia,mapa_rezervacie.Zaciatok,mapa_rezervacie.Koniec,rezervacia.ID_Miestnost
+				FROM mapa_rezervacie 
+				INNER JOIN rezervacia
+				ON mapa_rezervacie.ID_Rezervacia=rezervacia.ID
+				INNER JOIN miestnost
+				ON rezervacia.ID_Miestnost=miestnost.ID
+				WHERE ID_Miestnost=:room
+					AND (
+						(Zaciatok>=:start AND Koniec<=:end)
+						OR (Zaciatok>=:start AND Zaciatok<:end)
+						OR (Koniec>:start AND Koniec<=:end)
+						OR (Zaciatok<=:start AND Koniec>=:end)
+						)
+					"
+				;
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':room' => $room, ':start' => $start, ':end' => $end));	
+			$rezervacie = array();
+			while( $row = $stmt->fetch(PDO::FETCH_ASSOC) ) {
+				$rezervacie[] = $row;
+			}
+			
+			$stmt->closeCursor();
+			//echo '<pre>'; print_r($rezervacie); echo '</pre>';
+			return $rezervacie;
+		}
+		else{
+			return null;
+		}
+	}
+
 	public function createNewLog($user, $akcia, $popis){
 		if($this->connect != null){
 			$sql = "INSERT INTO logy 

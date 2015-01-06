@@ -124,7 +124,21 @@ class Ucitel extends Controller
 					$opakovania = $_POST['opakovania'];
 
 					for ($i=0;$i<$opakovania;$i++){
-						$mysql_result = $mysql->createReservationMap($id, $zaciatok, $koniec, $pocetOsob, $i);
+						$start = new DateTime($zaciatok);
+						$start->add(new DateInterval('P'.$i*7 .'D'));
+						$start = $start->format('Y-m-d H:i:s');
+						$end = new DateTime($koniec);
+						$end->add(new DateInterval('P'.$i*7 .'D'));
+						$end = $end->format('Y-m-d H:i:s');
+
+						$mysql = new Connection();
+						$mysql_result = $mysql->getReservationsFromTo($roomID, $start, $end);
+						if (!empty($mysql_result)) {
+							echo 'Rezerváciu v čase od ' . $start . ' do ' . $end . ' sa nepodarilo vytvoriť, termín je už obsadený.<br>';
+						}
+						else {
+							$mysql_result = $mysql->createReservationMap($id, $zaciatok, $koniec, $pocetOsob, $i);
+						}
 					}
 					
 					$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " pridal do databázy rezerváciu pod id=" . $id . " (" . $opakovania . " opakovaní)";
@@ -140,7 +154,8 @@ class Ucitel extends Controller
 				echo "Chybne vyplnený formulár.";
 			}
 			}
-
+			//$mysql = new Connection();
+			//$mysql_result = $mysql->getReservationsFromTo(2, '2015-01-28 08:30:00', '2015-01-28 09:30:00'); Otestované pre všetkých 6 možných prípadov
 			$this->show('Učiteľ | Rezervácia','form/rezervacia',array('message' => 'Vytvoriť rezervaciu'));	
 					
 		}	

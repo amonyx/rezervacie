@@ -10,7 +10,7 @@
 	function setMaxRange(){	
 		var e = document.getElementById("miestnost");
 		var Miestnost_Kapacita = e.options[e.selectedIndex].text;
-		var Kapacita_STR = Miestnost_Kapacita.split(':')[1];
+		var Kapacita_STR = Miestnost_Kapacita.split('(')[1].replace(")", "");
 		var Kapacita = parseInt(Kapacita_STR);
 		var range_value_str = document.getElementById('pocetOsob').value;
 		var range_value = parseInt(range_value_str);
@@ -120,7 +120,7 @@ echo '<td>';
 			$mysql = new Connection();
 			$result = $mysql->getAllRooms();		
 			for($i=0; $i < count($result); $i++){
-					echo '<option value="' . $result[$i]['Nazov'] . '">' . $result[$i]['Nazov'] . ':'. $result[$i]['Kapacita'] . '</option>' . "\n";
+					echo '<option value="' . $result[$i]['Nazov'] . '">' . $result[$i]['Nazov'] . '('. $result[$i]['Kapacita'] . ')</option>' . "\n";
 			} 
 		?>	
 		</select>
