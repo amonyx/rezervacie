@@ -21,12 +21,13 @@
 			{
 				if(miestnosti[m].key == ID)
 				{					
-					var options = document.getElementById("miestnost").options;
+					var select = document.getElementById("miestnost");
+					var options = select.options;
 					for(var o = 0; o < options.length;o++)
 					{
 						if(miestnosti[m].label == options[o].text)
 						{
-							options[o].remove();
+							select.remove(o);
 						}
 					}
 				}
