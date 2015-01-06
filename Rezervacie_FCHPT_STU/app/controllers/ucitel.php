@@ -94,7 +94,7 @@ class Ucitel extends Controller
 	
 	public function rezervacia(){
 
-		function validateDate($date, $format = 'Y-m-d H:i:s')
+		function validateDate($date, $format = 'd/m/Y')
 		{
 		    $d = DateTime::createFromFormat($format, $date);
 		    return $d && $d->format($format) == $date;
@@ -102,12 +102,13 @@ class Ucitel extends Controller
 
 		if($this->user != null){
 			if(@$_POST['vytvorRezervaciu']){
-
-				if (!empty($_POST['ucel']) && isset($_POST['pocetOsob']) && validateDate($_POST['startDate']) &&
-				is_int($_POST['pocetOsob'])	&& $_POST['pocetOsob']>0 && is_int($_POST['opakovania']) &&
-				is_int($_POST['startHour']) && is_int($_POST['startMinute']) && is_int($_POST['endHour']) && is_int($_POST['endMinute']) &&
-				isset($_POST['startHour']) && isset($_POST['startMinute']) && isset($_POST['endHour']) && isset($_POST['endMinute']) &&
-				( ($_POST['startHour']<$_POST['endHour']) || ($_POST['startHour']==$_POST['endHour'] && $_POST['startMinute']<$_POST['endMinute']))) {
+				if ( !empty($_POST['ucel']) && isset($_POST['pocetOsob']) && validateDate($_POST['startDate']) &&
+				//is_int($_POST['pocetOsob']) && $_POST['pocetOsob']>0 && is_int($_POST['opakovania']) &&  
+				//is_int($_POST['startHour']) && is_int($_POST['startMinute']) && is_int($_POST['endHour']) && is_int($_POST['endMinute']) &&
+				$_POST['startHour']>-1 && $_POST['startHour']<25 && $_POST['endHour']>-1 && $_POST['endHour']<25 && 
+				$_POST['startMinute']>-1 && $_POST['startMinute']<60 && $_POST['endMinute']>-1 && $_POST['endMinute']<60 && 
+				isset($_POST['startHour']) && isset($_POST['startMinute']) && isset($_POST['endHour']) && isset($_POST['endMinute']) && 
+				( ($_POST['startHour']<$_POST['endHour']) || ($_POST['startHour']==$_POST['endHour'] && $_POST['startMinute']<$_POST['endMinute']))) { 
 
 				$user = $this->user->id;
 				$mysql = new Connection();

@@ -41,22 +41,15 @@ function showTimeSelector($text){
 	 
 	echo '<td>';
 	echo ' <select class="form-control" name="' . $text . 'Hour">';
+
 	for ($i = 0; $i <= 23; $i++) {
-			if ((isset($_POST['startHour'])) && $_POST['startHour']==$i ) {
+			if ($i==9 && $text=="start") {
+				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
+			}
+			elseif ($i==11 && $text=="end") {
 				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
 			}
 
-			elseif ($i==9 && $text=="start" && !isset($_POST['startHour'])) {
-				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
-			}
-
-			elseif ((isset($_POST['startHour'])) && $_POST['startHour']==$i ) {
-				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
-			}
-		
-			elseif ($text=="end" && $i==11 && !isset($_POST['endHour'])) {
-				echo '<option value="' . sprintf('%02d', $i) . '" selected="selected">' . sprintf('%02d', $i) . '</option>' . "\n";
-			} 
 			else {
 		  		echo '<option value="' . sprintf('%02d', $i) . '">' . sprintf('%02d', $i) . '</option>' . "\n";
 			}
@@ -67,15 +60,7 @@ function showTimeSelector($text){
 	
 	echo '<td><select class="form-control" name="' . $text . 'Minute">';
 	for ($i = 0; $i < 12; $i++) {
-		if ((isset($_POST['startMinute'])) && $_POST['startMinute']==$i*5 ) {
-		  echo '<option value="' . sprintf('%02d', $i*5) . '" selected="selected">' . sprintf('%02d', $i*5) . '</option>' . "\n";
-		}
-		elseif ((isset($_POST['endMinute'])) && $_POST['endMinute']==$i*5 ) {
-		  echo '<option value="' . sprintf('%02d', $i*5) . '" selected="selected">' . sprintf('%02d', $i*5) . '</option>' . "\n";
-		}
-		else {
 			echo '<option value="' . sprintf('%02d', $i*5) . '">' . sprintf('%02d', $i*5) . '</option>' . "\n";
-		}
 	}
 	echo '</select></td>';
 }
