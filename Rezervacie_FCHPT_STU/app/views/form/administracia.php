@@ -13,7 +13,10 @@
 			echo '</div>';
 			echo '<div class="list-group col-md-4">';
 			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewRoomType">Vytvorenie nového typu miestnosti</a>';				
-			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/handleRoomTypes">Správa typov miestností</a>';								
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/handleRoomTypes">Správa typov miestností</a>';				
+			echo '</div>';
+			echo '<div class="list-group col-md-4">';
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/logy">Prehľad logov</a>';					
 			echo '</div>';
 		echo '</div>';
 		echo '</div>';

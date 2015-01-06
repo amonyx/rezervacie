@@ -10,8 +10,6 @@ class Connection
 			$this->connect = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD,
 				array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 			$this->connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$aa = new PDO('mysql:host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASSWORD,
-			array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 		}
 		catch (PDOException $e)
 		{
@@ -548,6 +546,22 @@ class Connection
 			$stmt->execute(array(':user' => $user, ':akcia' => $akcia, ':popis' => $popis) );			
 			$stmt->closeCursor();
 			return true;
+		}
+		else{
+			return null;
+		}
+	}
+	
+	public function get_logs(){
+		if($this->connect != null){
+			$sql = 'SELECT *
+					FROM logy
+					ORDER BY Datum DESC';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute();
+			$logs = $stmt->fetchAll();
+			$stmt->closeCursor();
+			return $logs;
 		}
 		else{
 			return null;

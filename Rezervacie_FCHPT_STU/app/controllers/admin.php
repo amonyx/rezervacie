@@ -244,4 +244,21 @@ class Admin extends Controller
 		}
 	}
 	
+	public function logy(){
+	if($this->user != null){
+			if($this->user->admin){
+				$mysql = new Connection();
+				$logs = $mysql->get_logs();
+
+				$this->show('Logy', 'listview_logs',array('logs' => $logs));		
+			}				
+			else{
+				$this->show('Oops','message',array('message' => 'Prístup bol zamietnutý.'));
+			}
+		}				
+		else{
+			$this->showLogin('Pre vstup je nutné byť prihlásený.');
+		}
+	}
+	
 }
