@@ -146,7 +146,11 @@ class Ucitel extends Controller
 					$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " pridal do databázy rezerváciu pod id=" . $id . " (" . $opakovania . " opakovaní)";
 					$mysql->createNewLog($this->user->login, "Pridanie rezervácie", $popis);
 
-					$this->show('Učiteľ | Rezervácia', 'message',array('message' => "Úspešné vytvorenie rezervácie.<br>" . $obsadeneTerminy));									
+					if(!(empty($obsadeneTerminy))){
+						$this->show('Učiteľ | Rezervácia', 'message',array('message' => "Nastala chyba pri vytváraní rezervácie.<br>" . $obsadeneTerminy));	
+					}else{
+						$this->show('Učiteľ | Rezervácia', 'message',array('message' => "Úspešné vytvorenie rezervácie.<br>"));	
+					}					
 				}
 
 			
