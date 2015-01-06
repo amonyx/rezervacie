@@ -521,9 +521,7 @@ class Connection
 						OR (Zaciatok>=:start AND Zaciatok<:end)
 						OR (Koniec>:start AND Koniec<=:end)
 						OR (Zaciatok<=:start AND Koniec>=:end)
-						)
-					"
-				;
+						)";
 			$stmt = $this->connect->prepare($sql);
 			$stmt->execute(array(':room' => $room, ':start' => $start, ':end' => $end));	
 			$rezervacie = array();

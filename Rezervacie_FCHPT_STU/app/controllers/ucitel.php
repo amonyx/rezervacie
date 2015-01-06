@@ -123,6 +123,7 @@ class Ucitel extends Controller
 
 					$opakovania = $_POST['opakovania'];
 
+					$obsadeneTerminy = '';
 					for ($i=0;$i<$opakovania;$i++){
 						$start = new DateTime($zaciatok);
 						$start->add(new DateInterval('P'.$i*7 .'D'));
@@ -134,7 +135,8 @@ class Ucitel extends Controller
 						$mysql = new Connection();
 						$mysql_result = $mysql->getReservationsFromTo($roomID, $start, $end);
 						if (!empty($mysql_result)) {
-							echo 'Rezerváciu v čase od ' . $start . ' do ' . $end . ' sa nepodarilo vytvoriť, termín je už obsadený.<br>';
+							$obsadeneTerminy = $obsadeneTerminy .
+											  '<span style="color:red">Rezerváciu v čase od ' . $start . ' do ' . $end . ' sa nepodarilo vytvoriť, termín je už obsadený.</span><br>' . "\n";
 						}
 						else {
 							$mysql_result = $mysql->createReservationMap($id, $zaciatok, $koniec, $pocetOsob, $i);
@@ -144,7 +146,7 @@ class Ucitel extends Controller
 					$popis = "Učiteľ " . $this->user->meno . ' '. $this->user->priezvisko . " pridal do databázy rezerváciu pod id=" . $id . " (" . $opakovania . " opakovaní)";
 					$mysql->createNewLog($this->user->login, "Pridanie rezervácie", $popis);
 
-					$this->show('Učiteľ | Rezervácia', 'message',array('message' => "Úspešné vytvorenie rezervácie."));									
+					$this->show('Učiteľ | Rezervácia', 'message',array('message' => "Úspešné vytvorenie rezervácie.<br>" . $obsadeneTerminy));									
 				}
 
 			
