@@ -1,9 +1,10 @@
 <?php 
 //******************ZMENA
+echo '<br>';
 	if($this->user != null){				
 		if($this->user->admin){	
 		echo '<div class="row">';
-			echo '<div class="list-group col-md-4">';
+			echo '<div class="list-group col-md-4" style="padding-left:15px;">';
 			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/CreateNewUser">Vytvorenie nového používateľa</a>';							
 			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/ZmenaPrav">Zmena administrátorských práv</a>';
 			echo '</div>';

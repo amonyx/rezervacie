@@ -111,7 +111,8 @@ function showTimeSelector($text){
 		<hr>
 		<form method="post" role="form" class="form-horizontal">
 		
-		<div class="col-md-4">
+		<div class="col-md-2"></div>
+		<div class="col-md-2">
 		<div class="form-group">
 		<table class="table">
 		<thead>
