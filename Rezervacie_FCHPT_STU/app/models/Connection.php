@@ -567,5 +567,19 @@ class Connection
 			return null;
 		}
 	}
+
+	public function deleteOldReservations(){
+		if($this->connect != null){
+			$sql = 'DELETE
+					FROM mapa_rezervacie
+					WHERE Zaciatok <= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute();
+			$stmt->closeCursor();
+		}
+		else{
+			return null;
+		}
+	}
 }
 ?>
