@@ -33,9 +33,9 @@ class Admin extends Controller
 						{
 							if($_POST['heslo'] == $_POST['heslo2'])
 							{
-								$meno = $_POST['meno'];
-								$priezvisko = $_POST['priezvisko'];
-								$login = $_POST['login'];
+								$meno = htmlspecialchars($_POST['meno']);
+								$priezvisko = htmlspecialchars($_POST['priezvisko']);
+								$login = htmlspecialchars(($_POST['login']));
 								$Duality = new Connection();
 								$Duality_result = $Duality->getUserByLogin($login);
 								if($Duality_result == null)
@@ -144,7 +144,7 @@ class Admin extends Controller
 					if (isset($_POST['name_room']) && $_POST['name_room'] != '' && isset($_POST['capacity_room']) && $_POST['capacity_room'] != '' && isset($_POST['type_room'])){			
 						if(is_numeric($_POST['capacity_room']) && ($_POST['capacity_room'] > 0))
 						{							
-							$name_room = $_POST['name_room'];
+							$name_room = htmlspecialchars($_POST['name_room']);
 							$capacity_room = $_POST['capacity_room'];
 							$type_room = $_POST['type_room'];
 						
@@ -213,7 +213,7 @@ class Admin extends Controller
 			if($this->user->admin){
 				if(@$_POST['createRoomType']){
 						if (isset($_POST['name_room_type']) && ($_POST['name_room_type'] != '')){										
-								$name_room_type = $_POST['name_room_type'];
+								$name_room_type = htmlspecialchars($_POST['name_room_type']);
 							
 								$mysql = new Connection();
 								$mysql_result = $mysql->createRoomType($name_room_type);

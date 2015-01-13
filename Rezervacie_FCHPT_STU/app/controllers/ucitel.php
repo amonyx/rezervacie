@@ -103,8 +103,6 @@ class Ucitel extends Controller
 		if($this->user != null){
 			if(@$_POST['vytvorRezervaciu']){
 				if ( !empty($_POST['ucel']) && isset($_POST['pocetOsob']) && validateDate($_POST['startDate']) &&
-				//is_int($_POST['pocetOsob']) && $_POST['pocetOsob']>0 && is_int($_POST['opakovania']) &&  
-				//is_int($_POST['startHour']) && is_int($_POST['startMinute']) && is_int($_POST['endHour']) && is_int($_POST['endMinute']) &&
 				$_POST['startHour']>-1 && $_POST['startHour']<25 && $_POST['endHour']>-1 && $_POST['endHour']<25 && 
 				$_POST['startMinute']>-1 && $_POST['startMinute']<60 && $_POST['endMinute']>-1 && $_POST['endMinute']<60 && 
 				isset($_POST['startHour']) && isset($_POST['startMinute']) && isset($_POST['endHour']) && isset($_POST['endMinute']) && 
@@ -114,7 +112,7 @@ class Ucitel extends Controller
 				$mysql = new Connection();
 				$mysql_result = $mysql->getRoomIdByName($_POST['miestnost']);
 				$roomID = $mysql_result['ID'];
-				$ucel = $_POST['ucel'];
+				$ucel = htmlspecialchars($_POST['ucel']);
 
 				$mysql_result = $mysql->createReservation($user, $roomID , $ucel);
 				if($mysql_result == null){
