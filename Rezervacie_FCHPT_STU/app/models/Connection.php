@@ -304,6 +304,22 @@ class Connection
 			return null;
 		}
 	}
+
+	public function getRoomTypeIdByName($roomTypeName){
+		if($this->connect != null){
+			$sql = 'SELECT *
+					FROM typy_miestnosti
+					WHERE Nazov=:roomTypeName';
+			$stmt = $this->connect->prepare($sql);
+			$stmt->execute(array(':roomTypeName' => $roomTypeName));
+			$result = $stmt->fetch();
+			$stmt->closeCursor();
+			return $result;
+		}
+		else{
+			return null;
+		}
+	}
 	
 	public function TEST_MIESTNOSTI_VYTVOR($pocet){
 		if($this->connect != null){

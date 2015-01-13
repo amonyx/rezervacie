@@ -360,8 +360,8 @@
 	<select class="form-control" name="miestnsoti_SELECT" id="miestnsoti_SELECT" style="visibility:hidden;" onchange="setKalendarByMiestnosti();"></select>	
 </div>
 	<label class="control-label" id="Details"></label>
-	<span style="color:red;" id="message1" style="float:right;"><?=$data['message']?></span>
-	<span style="color:green;" id="message2" style="float:right;"><?=$data['message2']?></span>
+	<div class="row text-center"><span style="color:red;" id="message1"><?=$data['message']?></span></div>
+	<div class="row text-center"><span style="color:green;" id="message2"><?=$data['message2']?></span></div>
 </div>
 <div class="col-md-4"></div>
 </form>

@@ -5,7 +5,7 @@
 <h3 class="text-center">Vytvorenie nového používateľa</h3>
 <hr>
 <form class="form-horizontal" method="post" role="form">
-				<span style="color:red;"><?=$data['message']?></span>
+				<div class="row text-center"><span style="color:red;"><?=$data['message']?></span></div>
 				
 				
 				<div class="col-md-4"></div>

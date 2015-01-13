@@ -7,7 +7,7 @@
 <hr>
 
 <form method="post" role="form" class="form-horizontal">
-				<span style="color:red;"><?=$data['message']?></span>
+				<div class="row text-center"><span style="color:red;"><?=$data['message']?></span></div>
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
 				<div class="form-group">
@@ -26,6 +26,8 @@
 			<?php 
 					$mysql = new Connection();
 					$results = $mysql->getRoomTypes();
+
+					$isRoomUnique = $mysql ->getRoomIdByName(@$_POST["name_room"]);
 
 					$arr_length = count($results);
 					echo "<select class='form-control' name='type_room'>";

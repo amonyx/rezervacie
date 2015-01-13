@@ -2,15 +2,20 @@
 	require_once 'form/administracia.php';
 ?>
 <hr>
-<h3 class="text-center">Prehľad logov</h3>
+<h3 class="text-center">Prehľad logov a vymazanie starých rezervácií</h3>
 <hr>
 
-<form method="post">
-<div style="margin: 0.5em 0;">
-<span>Vymazať z databázy rezervácie staršie ako 6 mesiacov: </span>
-<input type="submit" value="Vymaž" name="deleteDB">
+<div class="col-md-4"></div>
+<div class="col-md-4">
+<form method="post" role="form" class="form-horizontal" style="padding-bottom:2em;">
+<div class="form-group  text-center">
+<label class="control-label" for="deleteDB"><strong>Vymazať z databázy rezervácie staršie ako 6 mesiacov:</strong></label>
 </div>
+<input type="submit" class="input-lg btn-warning form-control" value="Vymaž" name="deleteDB">
 </form>
+</div>
+<div class="col-md-4"></div>
+
 <span style="color:green;"><?=$data['message']?></span>
 <table class="table table-striped table-condensed table-hover">
 

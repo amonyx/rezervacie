@@ -147,11 +147,17 @@ class Admin extends Controller
 							$name_room = htmlspecialchars($_POST['name_room']);
 							$capacity_room = $_POST['capacity_room'];
 							$type_room = $_POST['type_room'];
-						
+							$mysql_result = "";
+							$isRoomUnique = "";
 							$mysql = new Connection();
-							$mysql_result = $mysql->createRoom($name_room, $type_room ,$capacity_room);
+							$isRoomUnique = $mysql -> getRoomIdByName($name_room);
+
+							if($isRoomUnique == null)
+							{
+								$mysql_result = $mysql->createRoom($name_room, $type_room ,$capacity_room);
+							}
 							if($mysql_result == null){
-								$message = 'Nastala chyba pri vytváraní.';
+								$message = 'Nastala chyba pri vytváraní. Takáto miestnosť už existuje.';
 							}	
 							else
 							{
@@ -214,11 +220,17 @@ class Admin extends Controller
 				if(@$_POST['createRoomType']){
 						if (isset($_POST['name_room_type']) && ($_POST['name_room_type'] != '')){										
 								$name_room_type = htmlspecialchars($_POST['name_room_type']);
-							
+								$mysql_result = "";
+								$isRoomTypeUnique = "";
 								$mysql = new Connection();
-								$mysql_result = $mysql->createRoomType($name_room_type);
+								$isRoomTypeUnique = $mysql -> getRoomTypeIdByName($name_room_type);
+
+								if($isRoomTypeUnique == null)
+								{
+									$mysql_result = $mysql->createRoomType($name_room_type);
+								}
 								if($mysql_result == null){
-									$message = 'Nastala chyba pri vytváraní.';
+									$message = 'Nastala chyba pri vytváraní. Takýto typ miestnosti už existuje.';
 								}	
 								else
 								{

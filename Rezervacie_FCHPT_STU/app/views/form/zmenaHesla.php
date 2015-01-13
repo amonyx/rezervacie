@@ -2,8 +2,8 @@
 <h3 class="text-center">Zmena hesla</h3>
 <hr>
 <form method="post" role="form" class="form-horizontal">
-				<span style="color:red;"><?=$data['message']?></span>
-				<span style="color:green;"><?=$data['message2']?></span>
+				<div class="row text-center"><span style="color:red;"><?=$data['message']?></span></div>
+				<div class="row text-center"><span style="color:green;"><?=$data['message2']?></span></div>
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
 				<div class="form-group">

@@ -17,7 +17,7 @@ echo '<br>';
 			echo '<div class="row">';
 			echo '<div class="list-group col-md-4"></div>';
 			echo '<div class="list-group col-md-4">';
-			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/logy">Prehľad logov</a>';					
+			echo '<a class="list-group-item" href="http://'.DOMAIN.'/'.URL_BASE.'/Admin/logy">Prehľad logov a vymazanie starých rezervácií</a>';					
 			echo '</div>';
 			echo '<div class="list-group col-md-4"></div>';
 			echo '</div>';

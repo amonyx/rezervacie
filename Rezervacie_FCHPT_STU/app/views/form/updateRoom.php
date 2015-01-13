@@ -15,7 +15,7 @@
 <h3 class="text-center">Upraviť miestnosť</h3>
 <hr>
 <form method="post" role="form" class="form-horizontal">
-				<span style="color:red;"><?=$data['message']?></span>
+				<div class="row text-center"><span style="color:red;"><?=$data['message']?></span></div>
 				
 				<div class="col-md-4"></div>
 				<div class="col-md-4">

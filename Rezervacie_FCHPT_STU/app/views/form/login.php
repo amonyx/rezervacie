@@ -3,7 +3,7 @@
 <hr>
 <form method="post" action="http://<?=DOMAIN?>/<?=URL_BASE?>/Ucitel/prihlasenie" role="form" class="form-horizontal">
 				<div class="form-group text-center">
-				<span style="color:red;"><?=$data['message']?></span>
+				<div class="row text-center"><span style="color:red;"><?=$data['message']?></span></div>
 				</div>
 				<div class="col-md-4"></div>
 				<div class="col-md-4">
